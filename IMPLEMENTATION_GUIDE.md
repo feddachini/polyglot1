@@ -153,12 +153,12 @@ flow scripts execute scripts/get_deck_info.cdc --network emulator
 ```
 
 **AI Prompt for Testing**:
-> "Create a comprehensive test suite for the LanguageLearning contract including:
-> 1. Profile creation and setup tests
-> 2. Deck and card creation tests
-> 3. Card review workflow tests
-> 4. Leitner algorithm progression tests
-> Include both positive and negative test cases."
+> "Create a comprehensive test suite for the LanguageLearning contract using Cadence 1.0 testing framework:
+> 1. Profile creation and setup tests with account storage verification
+> 2. Deck and card creation tests with proper capability testing
+> 3. Card review workflow tests with entitlement validation
+> 4. Leitner algorithm progression tests with state verification
+> Include both positive and negative test cases using the latest Flow testing patterns."
 
 ---
 
@@ -169,23 +169,24 @@ flow scripts execute scripts/get_deck_info.cdc --network emulator
 Update your Next.js project configuration:
 
 ```bash
-# Install additional dependencies
-npm install @onflow/types @onflow/util-encode-key
+# Install additional dependencies for Flow integration
+npm install @onflow/types @onflow/util-encode-key @onflow/util-address
 
-# Create Flow configuration
+# Create Flow configuration directory
 mkdir src/flow
 touch src/flow/config.js
 touch src/flow/transactions.js
 touch src/flow/scripts.js
+touch src/flow/wallets.js
 ```
 
 **AI Prompt for FCL Configuration**:
-> "Create FCL configuration for my Next.js app that:
-> 1. Configures connection to Flow testnet
-> 2. Sets up wallet discovery for multiple wallet providers
-> 3. Includes contract addresses and names
-> 4. Provides authentication hooks for React components
-> 5. Includes error handling and loading states"
+> "Create FCL configuration for my Next.js app that uses the latest Flow network endpoints:
+> 1. Configures connection to Flow testnet (rest-testnet.onflow.org)
+> 2. Sets up wallet discovery with discovery.wallet and discovery.authn.endpoint
+> 3. Includes contract addresses for Cadence 1.0 core contracts
+> 4. Provides authentication hooks with current user subscription
+> 5. Includes error handling, loading states, and wallet provider setup"
 
 ### Step 11: Create Flow Transaction Helpers
 
@@ -260,7 +261,22 @@ touch src/components/ProgressTracker.tsx
 
 ## Phase 5: Advanced Features
 
-### Step 16: Implement Spaced Repetition Algorithm
+### Step 16: Add Cross-VM Capabilities (Optional)
+
+```bash
+# If you want to integrate EVM functionality
+npm install @onflow/fcl-rainbowkit-adapter wagmi viem
+```
+
+**AI Prompt for Cross-VM Integration**:
+> "Add Cross-VM capabilities to enable interaction between Cadence and EVM:
+> 1. Set up COA (Cadence Owned Account) for EVM interaction
+> 2. Implement batch transactions across VMs
+> 3. Add EVM wallet support alongside Flow wallets
+> 4. Create bridges for token transfers between VMs
+> 5. Implement hybrid functionality using both Cadence and Solidity"
+
+### Step 17: Implement Spaced Repetition Algorithm
 
 **AI Prompt for Algorithm Implementation**:
 > "Implement the Leitner spaced repetition algorithm with:
@@ -270,7 +286,7 @@ touch src/components/ProgressTracker.tsx
 > 4. Statistics tracking for learning efficiency
 > 5. Integration with Cadence smart contract storage"
 
-### Step 17: Add Deck Management
+### Step 18: Add Deck Management
 
 ```bash
 touch src/components/DeckManager.tsx
@@ -285,7 +301,7 @@ touch src/components/CardEditor.tsx
 > 4. Implement role-based access control
 > 5. Add data validation and error handling"
 
-### Step 18: Create Analytics Dashboard
+### Step 19: Create Analytics Dashboard
 
 ```bash
 touch src/components/Analytics.tsx
@@ -304,7 +320,7 @@ touch src/components/LearningStats.tsx
 
 ## Phase 6: Testing and Deployment
 
-### Step 19: Comprehensive Testing
+### Step 20: Comprehensive Testing
 
 ```bash
 # Install testing dependencies
@@ -324,7 +340,7 @@ touch __tests__/components.test.js
 > 4. Mock implementations for Flow emulator testing
 > 5. Performance tests for large datasets"
 
-### Step 20: Deploy to Testnet
+### Step 21: Deploy to Testnet
 
 ```bash
 # Update flow.json for testnet deployment
@@ -344,7 +360,7 @@ flow project deploy --network testnet
 > 4. Testing deployed contracts with real wallet connections
 > 5. Troubleshooting common deployment issues"
 
-### Step 21: Production Deployment
+### Step 22: Production Deployment
 
 ```bash
 # Build and deploy frontend
@@ -365,7 +381,7 @@ npm run build
 
 ## Phase 7: Content Population and Launch
 
-### Step 22: Create Initial Content
+### Step 23: Create Initial Content
 
 **AI Prompt for Content Creation**:
 > "Help me create initial language learning content:
@@ -375,7 +391,7 @@ npm run build
 > 4. Content validation and quality checks
 > 5. Batch import scripts for efficient content loading"
 
-### Step 23: User Testing and Feedback
+### Step 24: User Testing and Feedback
 
 **AI Prompt for User Testing**:
 > "Create a user testing plan including:
