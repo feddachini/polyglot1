@@ -58,7 +58,7 @@ flow init
 ```
 
 **AI Prompt for Directory Structure**:
-> "Explain the default flow.json configuration created by 'flow init' command. Show how to configure accounts for testnet and mainnet using the latest Flow CLI. Include setup for the dependency manager to install core contracts like NonFungibleToken and FungibleToken."
+> "Explain the default flow.json configuration created by 'flow init' command. Show how to use 'flow generate' commands to create contracts, transactions, and scripts with proper boilerplate. Include setup for the dependency manager to install core contracts like NonFungibleToken and FungibleToken."
 
 ### Step 4: Set up Flow Accounts
 
