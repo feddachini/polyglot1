@@ -118,11 +118,13 @@ flow generate contract LanguageLearning
 ### Step 7: Create Transaction Scripts
 
 ```bash
-# Create transaction files
-touch transactions/setup_profile.cdc
-touch transactions/create_deck.cdc
-touch transactions/create_card.cdc
-touch transactions/review_card.cdc
+# Generate transaction files with boilerplate code
+flow generate transaction setup_profile
+flow generate transaction create_deck
+flow generate transaction create_card
+flow generate transaction review_card
+
+# This creates transactions/ directory and .cdc files with transaction templates
 ```
 
 **AI Prompt for Transactions**:
