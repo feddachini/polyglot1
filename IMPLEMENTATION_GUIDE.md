@@ -128,12 +128,12 @@ flow generate transaction review_card
 ```
 
 **AI Prompt for Transactions**:
-> "Create Cadence 1.0 transaction scripts for:
+> "Update the generated transaction templates with specific functionality:
 > 1. setup_profile.cdc - Sets up user profile with primary language using account storage
 > 2. create_deck.cdc - Creates a new deck (admin only) with proper entitlements
 > 3. create_card.cdc - Adds a card to a deck (admin only) using access control
 > 4. review_card.cdc - Records a card review and updates level with capability access
-> Use auth(Storage) account references, proper error handling, and emit events. Include pre and post conditions."
+> Use the generated transaction structure, keep the imports and prepare block, add auth(Storage) account references, proper error handling, and emit events."
 
 ### Step 8: Create Query Scripts
 
