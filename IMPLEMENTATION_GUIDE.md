@@ -91,14 +91,14 @@ touch contracts/LanguageLearning.cdc
 ### Step 6: Implement Core Contract Functions
 
 **AI Prompt for Contract Functions**:
-> "Add the following functions to the LanguageLearning contract:
+> "Add the following functions to the LanguageLearning contract using Cadence 1.0 syntax:
 > 1. createDeck() - creates and stores a new deck
 > 2. createCard() - creates a card within a deck
 > 3. setupProfile() - initializes user profile in account storage
 > 4. reviewCard() - updates card level based on review result
 > 5. getCardLevel() - retrieves current card level for user
 > 6. getNextReviewDate() - calculates next review based on Leitner algorithm
-> Include proper access control and capability management."
+> Use access(all), access(contract), and entitlements for proper access control. Include capability-based security patterns."
 
 ### Step 7: Create Transaction Scripts
 
