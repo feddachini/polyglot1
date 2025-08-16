@@ -38,8 +38,6 @@ code --install-extension onflow.cadence
 ```bash
 # Initialize Flow project
 flow init
-
-
 ```
 
 **AI Prompt for Directory Structure**:
