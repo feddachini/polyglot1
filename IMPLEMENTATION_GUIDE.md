@@ -41,7 +41,7 @@ mkdir flow-contracts
 cd flow-contracts
 
 # Initialize Flow project
-flow init --network testnet
+flow init
 
 
 ```
