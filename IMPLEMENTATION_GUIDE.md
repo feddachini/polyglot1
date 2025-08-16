@@ -138,11 +138,13 @@ flow generate transaction review_card
 ### Step 8: Create Query Scripts
 
 ```bash
-# Create script files for reading data
-touch scripts/get_profile.cdc
-touch scripts/get_cards_for_review.cdc
-touch scripts/get_deck_info.cdc
-touch scripts/get_card_level.cdc
+# Generate script files with boilerplate code
+flow generate script get_profile
+flow generate script get_cards_for_review
+flow generate script get_deck_info
+flow generate script get_card_level
+
+# This creates scripts/ directory and .cdc files with script templates
 ```
 
 **AI Prompt for Scripts**:
