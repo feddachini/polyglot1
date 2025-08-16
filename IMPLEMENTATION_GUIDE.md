@@ -95,13 +95,13 @@ flow generate contract LanguageLearning
 ```
 
 **AI Prompt for Contract Structure**:
-> "Create a Cadence 1.0 smart contract called 'LanguageLearning' with the following resource-oriented structures:
+> "Update the generated LanguageLearning contract boilerplate with the following resource-oriented structures:
 > 1. Phrase struct with text, phonetic, and language fields
 > 2. Card resource with id, front/back Phrases, and deck_id
 > 3. Deck resource with id, name, and meaning
 > 4. Profile resource with primary_language and leitnerCards dictionary
 > 5. LeitnerCard struct with date, card_id, and level
-> Use Cadence 1.0 syntax with access(all) instead of pub, proper capabilities, and entitlements for secure account storage access."
+> Use the existing Cadence 1.0 boilerplate structure and add proper capabilities, entitlements for secure account storage access. Keep the generated imports and basic contract structure."
 
 ### Step 6: Implement Core Contract Functions
 
