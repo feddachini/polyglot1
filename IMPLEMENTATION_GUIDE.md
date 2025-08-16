@@ -36,10 +36,6 @@ code --install-extension onflow.cadence
 ### Step 3: Initialize Flow Project Structure
 
 ```bash
-# Create Flow project directory
-mkdir flow-contracts
-cd flow-contracts
-
 # Initialize Flow project
 flow init
 
