@@ -111,12 +111,12 @@ touch transactions/review_card.cdc
 ```
 
 **AI Prompt for Transactions**:
-> "Create Cadence transaction scripts for:
-> 1. setup_profile.cdc - Sets up user profile with primary language
-> 2. create_deck.cdc - Creates a new deck (admin only)
-> 3. create_card.cdc - Adds a card to a deck (admin only)
-> 4. review_card.cdc - Records a card review and updates level
-> Each transaction should include proper error handling and emit events."
+> "Create Cadence 1.0 transaction scripts for:
+> 1. setup_profile.cdc - Sets up user profile with primary language using account storage
+> 2. create_deck.cdc - Creates a new deck (admin only) with proper entitlements
+> 3. create_card.cdc - Adds a card to a deck (admin only) using access control
+> 4. review_card.cdc - Records a card review and updates level with capability access
+> Use auth(Storage) account references, proper error handling, and emit events. Include pre and post conditions."
 
 ### Step 8: Create Query Scripts
 
