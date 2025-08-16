@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
+import { FlowWalletConnectors } from "@dynamic-labs/flow";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,7 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
+        <DynamicContextProvider
+          settings={{
+            environmentId: "c237f1c5-d54f-43a0-aa17-ab017f738e3f",
+            walletConnectors: [FlowWalletConnectors],
+          }}
+        >
+          {children}
+        </DynamicContextProvider>
       </body>
     </html>
   );
