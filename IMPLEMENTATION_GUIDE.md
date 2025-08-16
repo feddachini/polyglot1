@@ -54,12 +54,18 @@ flow init
 # Generate a new key pair for development
 flow keys generate
 
-# Save the private key securely - you'll need it later
-# The output will show: Private Key, Public Key, and Address format
+# The CLI output will include a testnet faucet URL to create and fund an account
+# Example output includes: Private Key, Public Key, and Faucet URL
+
+# Create account on testnet using the faucet URL provided
+# Visit the URL to create an account and receive testnet FLOW tokens
+
+# Add the account to your flow.json configuration
+flow config accounts add testnet-account
 ```
 
 **AI Prompt for Account Setup**:
-> "Help me configure a Flow testnet account using the generated keys. Show me how to add the account to flow.json and fund it with testnet FLOW tokens."
+> "Help me configure a Flow testnet account using the generated keys and the testnet faucet. Show me how to properly add the account to flow.json with the latest Flow CLI configuration format, including key management best practices."
 
 ---
 
