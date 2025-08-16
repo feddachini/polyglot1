@@ -5,8 +5,20 @@
 Before starting, ensure you have:
 - Node.js 18+ installed
 - Git installed
-- A code editor (VS Code recommended)
+- A code editor (VS Code recommended with Flow Cadence extension)
 - A Flow wallet (like Blocto or Lilico) for testnet testing
+
+## Important: Cadence 1.0 Migration
+
+This guide uses **Cadence 1.0**, the stable version of Flow's smart contract language. Key changes from earlier versions:
+- `pub` keyword replaced with `access(all)`, `access(contract)`, etc.
+- New entitlements and capabilities system for access control
+- Updated token standards (NonFungibleToken V2, FungibleToken V2)
+- Resource-oriented programming with improved security patterns
+
+For reference, see:
+- [Cadence 1.0 Migration Guide](https://cadence-lang.org/docs/cadence-migration-guide)
+- [Cadence 1.0 Improvements](https://cadence-lang.org/docs/cadence-migration-guide/improvements-new-features)
 
 ---
 
