@@ -43,8 +43,7 @@ cd flow-contracts
 # Initialize Flow project
 flow init --network testnet
 
-# Create directory structure for contracts
-mkdir contracts transactions scripts
+
 ```
 
 **AI Prompt for Directory Structure**:
