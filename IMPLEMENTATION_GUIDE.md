@@ -411,15 +411,22 @@ npm run build
 flow version                          # Check Flow CLI version
 flow init                            # Initialize Flow project
 flow emulator start                  # Start local emulator
-flow accounts create                 # Create Flow account
 flow project deploy                  # Deploy contracts
 flow transactions send              # Send transaction
 flow scripts execute               # Execute script
+
+# Dependency management (new in latest CLI)
+flow dependencies install            # Install contract dependencies
+flow dependencies discover          # Discover core contracts
 
 # Development commands
 flow cadence language-server        # Start Cadence language server
 flow test                          # Run contract tests
 flow events get                    # Get blockchain events
+
+# Account management
+flow keys generate                   # Generate key pairs
+flow accounts create                # Create Flow account (testnet)
 ```
 
 ### NPM Commands
