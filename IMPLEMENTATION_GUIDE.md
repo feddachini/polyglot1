@@ -89,13 +89,13 @@ Generate the main contract file using Flow CLI:
 
 ```bash
 # Generate a new contract with boilerplate code
-flow generate contract LanguageLearning
+flow generate contract LeitnerLang
 
-# This creates contracts/LanguageLearning.cdc with basic contract structure
+# This creates contracts/LeitnerLang.cdc with basic contract structure
 ```
 
 **AI Prompt for Contract Structure**:
-> "Update the generated LanguageLearning contract boilerplate with the following resource-oriented structures:
+> "Update the generated LeitnerLang contract boilerplate with the following resource-oriented structures:
 > 1. Phrase struct with text, phonetic, and language fields
 > 2. Card resource with id, front/back Phrases, and deck_id
 > 3. Deck resource with id, name, and meaning
@@ -106,7 +106,7 @@ flow generate contract LanguageLearning
 ### Step 6: Implement Core Contract Functions
 
 **AI Prompt for Contract Functions**:
-> "Add the following functions to the LanguageLearning contract using Cadence 1.0 syntax:
+> "Add the following functions to the LeitnerLang contract using Cadence 1.0 syntax:
 > 1. createDeck() - creates and stores a new deck
 > 2. createCard() - creates a card within a deck
 > 3. setupProfile() - initializes user profile in account storage
@@ -172,7 +172,7 @@ flow scripts execute scripts/get_deck_info.cdc --network emulator
 ```
 
 **AI Prompt for Testing**:
-> "Create a comprehensive test suite for the LanguageLearning contract using Cadence 1.0 testing framework:
+> "Create a comprehensive test suite for the LeitnerLang contract using Cadence 1.0 testing framework:
 > 1. Profile creation and setup tests with account storage verification
 > 2. Deck and card creation tests with proper capability testing
 > 3. Card review workflow tests with entitlement validation
