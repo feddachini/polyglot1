@@ -85,10 +85,13 @@ flow config accounts add testnet-account
 
 ### Step 5: Create the Core Data Structures
 
-Create the main contract file:
+Generate the main contract file using Flow CLI:
 
 ```bash
-touch contracts/LanguageLearning.cdc
+# Generate a new contract with boilerplate code
+flow generate contract LanguageLearning
+
+# This creates contracts/LanguageLearning.cdc with basic contract structure
 ```
 
 **AI Prompt for Contract Structure**:
