@@ -148,12 +148,12 @@ flow generate script get_card_level
 ```
 
 **AI Prompt for Scripts**:
-> "Create Cadence script files for querying:
+> "Update the generated script templates with specific query functionality:
 > 1. get_profile.cdc - Gets user profile information
 > 2. get_cards_for_review.cdc - Gets cards due for review for a user
 > 3. get_deck_info.cdc - Gets deck information and card count
 > 4. get_card_level.cdc - Gets specific card level for a user
-> Include proper null checking and error handling."
+> Use the generated script structure with main function, keep the imports, add proper null checking and error handling."
 
 ### Step 9: Install Dependencies and Deploy Contracts
 
