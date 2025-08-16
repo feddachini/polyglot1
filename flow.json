@@ -1,7 +1,7 @@
 {
 	"contracts": {
-		"LeitnerLang": {
-			"source": "cadence/contracts/LeitnerLang.cdc",
+		"Counter": {
+			"source": "cadence/contracts/Counter.cdc",
 			"aliases": {
 				"testing": "0000000000000007"
 			}
@@ -67,25 +67,6 @@
 				"type": "file",
 				"location": "emulator-account.pkey"
 			}
-		},
-		"testnet-acct-1": {
-			"address": "984a68faa5fc5e12",
-			"key": {
-				"type": "file",
-				"location": "testnet-acct-1.pkey"
-			}
-		}
-	},
-	"deployments": {
-		"emulator": {
-			"emulator-account": [
-				"LeitnerLang"
-			]
-		},
-		"testnet": {
-			"testnet-acct-1": [
-				"LeitnerLang"
-			]
 		}
 	}
 }

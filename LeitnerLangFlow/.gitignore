@@ -3,3 +3,5 @@
 emulator-account.pkey
 imports
 .env
+
+testnet-acct-1.pkey
