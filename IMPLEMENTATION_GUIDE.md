@@ -36,12 +36,17 @@ code --install-extension onflow.cadence
 ### Step 3: Initialize Flow Project Structure
 
 ```bash
-# Initialize Flow project
+# Initialize Flow project (creates flow.json with pre-configured networks)
 flow init
+
+# The Flow CLI automatically creates:
+# - flow.json with networks (emulator, testnet, mainnet)
+# - Empty accounts, contracts, and deployments sections
+# - Directory structure is created as needed when you add contracts
 ```
 
 **AI Prompt for Directory Structure**:
-> "Create a flow.json configuration file that includes paths for contracts, transactions, and scripts directories. Include testnet configuration with proper account setup."
+> "Explain the default flow.json configuration created by 'flow init' command. Show how to configure accounts for testnet and mainnet using the latest Flow CLI. Include setup for the dependency manager to install core contracts like NonFungibleToken and FungibleToken."
 
 ### Step 4: Set up Flow Accounts
 
