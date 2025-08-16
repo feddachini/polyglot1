@@ -434,7 +434,12 @@ flow project deploy                  # Deploy contracts
 flow transactions send              # Send transaction
 flow scripts execute               # Execute script
 
-# Dependency management (new in latest CLI)
+# Code generation commands
+flow generate contract <name>        # Generate contract with boilerplate
+flow generate transaction <name>     # Generate transaction with template
+flow generate script <name>          # Generate script with template
+
+# Dependency management
 flow dependencies install            # Install contract dependencies
 flow dependencies discover          # Discover core contracts
 
