@@ -1,1 +1,1 @@
-# **leitnerlang**s
+# **leitnerlang**
