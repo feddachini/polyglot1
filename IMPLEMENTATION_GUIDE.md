@@ -136,14 +136,16 @@ touch scripts/get_card_level.cdc
 > 4. get_card_level.cdc - Gets specific card level for a user
 > Include proper null checking and error handling."
 
-### Step 9: Deploy and Test Contracts
+### Step 9: Install Dependencies and Deploy Contracts
 
 ```bash
-# Start Flow emulator
+# Install core contract dependencies
+flow dependencies install NonFungibleToken FungibleToken MetadataViews ViewResolver
+
+# Start Flow emulator in a new terminal
 flow emulator start
 
-# In a new terminal, deploy the contract
-flow accounts create # Creates a service account
+# Deploy the contract to emulator
 flow project deploy --network emulator
 
 # Test contract deployment
