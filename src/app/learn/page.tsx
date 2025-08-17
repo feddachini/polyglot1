@@ -276,8 +276,16 @@ export default function LearnPage() {
       incorrect: prev.incorrect + (correct ? 0 : 1)
     }));
     
-    if (correct) {
-      // Correct answer: move to next card immediately, send transaction in background
+    // Send transaction for BOTH correct and incorrect answers
+    try {
+      console.log('Sending review transaction to blockchain...');
+      await flowService.sendTransaction(TRANSACTIONS.REVIEW_CARD, [
+        currentCard.cardId,
+        correct
+      ]);
+      console.log('Review transaction successful');
+      
+      // After successful transaction, move to next card
       const nextIndex = currentCardIndex + 1;
       if (nextIndex < cardsDue.length) {
         setCurrentCardIndex(nextIndex);
@@ -286,39 +294,15 @@ export default function LearnPage() {
       } else {
         // All cards reviewed for today
         setCurrentCard(null);
-        loadLearningData(); // Refresh to get updated queue (don't await)
+        // Refresh learning data to get updated queue
+        await loadLearningData();
       }
       
-      // Send transaction in background (silently fail if needed)
-      flowService.sendTransaction(TRANSACTIONS.REVIEW_CARD, [
-        currentCard.cardId,
-        correct
-      ]).catch(error => {
-        console.error('Background transaction failed:', error);
-        // Silently fail - card stays in current state
-      });
-      
-    } else {
-      // Incorrect answer: NO transaction, just move card to end of queue
-      // Move current card to end of the queue
-      const updatedCardsDue = [...cardsDue];
-      const currentCardData = updatedCardsDue[currentCardIndex];
-      updatedCardsDue.splice(currentCardIndex, 1); // Remove from current position
-      updatedCardsDue.push(currentCardData); // Add to end
-      setCardsDue(updatedCardsDue);
-      
-      // Move to next card (same index since we removed current)
-      if (currentCardIndex < updatedCardsDue.length) {
-        setCurrentCard(updatedCardsDue[currentCardIndex]);
-        setShowAnswer(false);
-      } else {
-        // We've reached the end, but there are still cards (moved to end)
-        setCurrentCardIndex(0);
-        setCurrentCard(updatedCardsDue[0]);
-        setShowAnswer(false);
-      }
-      
-      console.log(`Incorrect answer - moved card to end of queue, ${updatedCardsDue.length} cards remaining`);
+    } catch (error) {
+      console.error('Review transaction failed:', error);
+      // On transaction failure, don't advance to next card
+      // User can try again
+      alert('Review transaction failed. Please try again.');
     }
     
     setIsReviewing(false);

@@ -168,64 +168,66 @@ export default function OnboardingFlow() {
   // Welcome Screen
   if (currentStep === "welcome") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center p-4">
-        <div className="max-w-md w-full">
-          <div className="text-center text-white mb-12">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20">
-              <Globe className="w-10 h-10" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="max-w-lg w-full">
+          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+            <div className="text-center mb-8">
+              <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-200">
+                <Globe className="w-10 h-10 text-blue-600" />
+              </div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">Polyglot</h1>
+              <p className="text-xl text-gray-700 mb-2">Master Multiple Languages</p>
+              <p className="text-gray-600">
+                With blockchain-powered spaced repetition
+              </p>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Polyglot</h1>
-            <p className="text-xl opacity-90 mb-2">Master Multiple Languages</p>
-            <p className="text-lg opacity-75">
-              With blockchain-powered learning
-            </p>
+
+            <div className="space-y-6 mb-8">
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-green-200">
+                  <BookOpen className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Smart Spaced Repetition</h3>
+                  <p className="text-sm text-gray-600">
+                    Learn efficiently with proven SRS methods and queue-based scheduling
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-purple-200">
+                  <Zap className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Multi-Language Learning</h3>
+                  <p className="text-sm text-gray-600">
+                    Connect romance languages for faster progress and better retention
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-orange-200">
+                  <Trophy className="w-6 h-6 text-orange-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Blockchain Progress</h3>
+                  <p className="text-sm text-gray-600">
+                    Own your learning data forever on the Flow blockchain
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setCurrentStep("connect")}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 transition-colors shadow-sm"
+            >
+              Get Started
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
-
-          <div className="space-y-6 mb-8">
-            <div className="flex items-center gap-4 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm border border-white/20">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-semibold">Smart Spaced Repetition</h3>
-                <p className="text-sm opacity-80">
-                  Learn efficiently with proven SRS methods
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm border border-white/20">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-semibold">Multi-Language Learning</h3>
-                <p className="text-sm opacity-80">
-                  Connect romance languages for faster progress
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 text-white">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm border border-white/20">
-                <Trophy className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-semibold">Earn as You Learn</h3>
-                <p className="text-sm opacity-80">
-                  Get rewards and NFT certificates on Flow
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setCurrentStep("connect")}
-            className="w-full bg-white text-blue-600 py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors shadow-lg"
-          >
-            Get Started
-            <ArrowRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
     );
@@ -307,76 +309,82 @@ export default function OnboardingFlow() {
   if (currentStep === "languages") {
     return (
       <div className="min-h-screen bg-gray-50 p-4">
-        <div className="max-w-md mx-auto pt-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Languages</h2>
-            <p className="text-lg text-gray-600 mb-2">
-              Select 1-3 romance languages to learn
-            </p>
-            <p className="text-sm text-gray-500 bg-gray-100 px-3 py-2 rounded-full inline-block">
-              English will be your base language
-            </p>
-          </div>
+        <div className="max-w-2xl mx-auto pt-8">
+          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 mb-6">
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-4 border border-blue-200">
+                <Globe className="w-8 h-8 text-blue-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Languages</h2>
+              <p className="text-lg text-gray-600 mb-4">
+                Select 1-3 romance languages to learn alongside English
+              </p>
+              <div className="inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">
+                <Check className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-medium text-blue-800">English will be your base language</span>
+              </div>
+            </div>
 
-          <div className="space-y-4 mb-8">
-            {languages.map((lang) => (
-              <div
-                key={lang.code}
-                onClick={() => toggleLanguage(lang.code)}
-                className={`bg-white rounded-xl p-6 cursor-pointer transition-all duration-300 border ${
-                  selectedLanguages.includes(lang.code)
-                    ? "ring-2 ring-blue-500 border-blue-200 shadow-md"
-                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="text-4xl">{lang.flag}</div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-xl font-semibold text-gray-900">
-                        {lang.name}
-                      </h3>
-                      {selectedLanguages.includes(lang.code) && (
-                        <Check className="w-5 h-5 text-green-600" />
-                      )}
+            <div className="space-y-4 mb-8">
+              {languages.map((lang) => (
+                <div
+                  key={lang.code}
+                  onClick={() => toggleLanguage(lang.code)}
+                  className={`p-6 cursor-pointer transition-all border rounded-lg ${
+                    selectedLanguages.includes(lang.code)
+                      ? "ring-2 ring-blue-500 border-blue-200 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300 hover:shadow-sm bg-white"
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">{lang.flag}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-xl font-semibold text-gray-900">
+                          {lang.name}
+                        </h3>
+                        {selectedLanguages.includes(lang.code) && (
+                          <Check className="w-5 h-5 text-blue-600" />
+                        )}
+                      </div>
+                      <div className="flex items-center gap-4 mb-3">
+                        <span
+                          className={`text-xs px-3 py-1 rounded-full font-medium ${
+                            lang.difficulty === "Beginner Friendly"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-orange-100 text-orange-800"
+                          }`}
+                        >
+                          {lang.difficulty}
+                        </span>
+                        <span className="text-sm text-gray-500 flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          {lang.learners} speakers
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">{lang.description}</p>
                     </div>
-                    <div className="flex items-center gap-4 mb-2">
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full font-medium ${
-                          lang.difficulty === "Beginner Friendly"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {lang.difficulty}
-                      </span>
-                      <span className="text-sm text-gray-500 flex items-center gap-1">
-                        <Users className="w-4 h-4" />
-                        {lang.learners}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600">{lang.description}</p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => setCurrentStep("connect")}
-              className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors border border-gray-300"
-            >
-              Back
-            </button>
-            <button
-              onClick={() => setCurrentStep("decks")}
-              disabled={selectedLanguages.length === 0}
-              className="flex-2 bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-sm"
-            >
-              Continue
-              <ChevronRight className="w-5 h-5" />
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setCurrentStep("connect")}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-lg font-medium transition-colors border border-gray-300"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => setCurrentStep("decks")}
+                disabled={selectedLanguages.length === 0}
+                className="flex-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 shadow-sm"
+              >
+                Continue
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

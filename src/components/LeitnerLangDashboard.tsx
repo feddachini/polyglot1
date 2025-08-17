@@ -22,7 +22,12 @@ import {
   Play,
   Settings,
   Library,
-  BarChart3
+  BarChart3,
+  Calendar,
+  Wallet,
+  Network,
+  Copy,
+  ExternalLink
 } from 'lucide-react';
 
 interface Deck {
@@ -74,6 +79,7 @@ export default function LeitnerLangDashboard() {
   const [deckCards, setDeckCards] = useState<any[]>([]);
   const [deckStats, setDeckStats] = useState<{[key: number]: {cardCount: number, languages: string[]}}>({});
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [queueData, setQueueData] = useState<any>(null);
 
   // Modal states
   const [showCreateDeck, setShowCreateDeck] = useState(false);
@@ -217,6 +223,21 @@ export default function LeitnerLangDashboard() {
     }
   };
 
+  // Load queue data
+  const loadQueueData = async () => {
+    if (!userAddress || !profile) return;
+    
+    try {
+      console.log('Loading queue data for:', userAddress);
+      const queue = await flowService.executeScript(SCRIPTS.GET_LEITNER_QUEUE, [userAddress]);
+      console.log('Queue data:', queue);
+      setQueueData(queue);
+    } catch (error) {
+      console.error('Failed to load queue data:', error);
+      // Don't fail if queue loading fails
+    }
+  };
+
   // Load decks when deck browser opens
   useEffect(() => {
     if (showDeckBrowser && availableDecks.length === 0 && !loadingDecks) {
@@ -236,6 +257,13 @@ export default function LeitnerLangDashboard() {
       loadAllDeckCards();
     }
   }, [showDeckBrowser, availableDecks]);
+
+  // Load queue data when profile is available
+  useEffect(() => {
+    if (profile && userAddress && !queueData) {
+      loadQueueData();
+    }
+  }, [profile, userAddress]);
 
   // Toggle language selection
   const toggleLanguage = (langCode: string) => {
@@ -354,24 +382,104 @@ export default function LeitnerLangDashboard() {
 
           {/* Account Info */}
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Wallet Address</div>
-                <div className="font-mono text-sm bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
-                  {userAddress}
+            <div className="flex items-center gap-2 mb-4">
+              <Wallet className="w-5 h-5 text-gray-700" />
+              <h3 className="text-lg font-semibold text-gray-900">Account Information</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Wallet Address */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <Wallet className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">Wallet Address</div>
+                    <div className="text-xs text-gray-500">Your Flow blockchain address</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <code className="font-mono text-sm text-gray-800 flex-1 truncate">
+                    {userAddress}
+                  </code>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(userAddress)}
+                    className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    title="Copy address"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Network</div>
-                <div className="text-sm font-medium text-blue-600">{network}</div>
+
+              {/* Network */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                    <Network className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">Network</div>
+                    <div className="text-xs text-gray-500">Blockchain network</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm font-medium text-green-800">{network}</span>
+                </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Contract</div>
-                <div className="font-mono text-xs text-gray-500">{contractAddress}</div>
+
+              {/* Contract Address */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                    <Settings className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">Contract Address</div>
+                    <div className="text-xs text-gray-500">LeitnerLang smart contract</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <code className="font-mono text-xs text-gray-600 flex-1 truncate">
+                    {contractAddress}
+                  </code>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(contractAddress)}
+                    className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                    title="Copy contract address"
+                  >
+                    <Copy className="w-3 h-3" />
+                  </button>
+                </div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">COA Address</div>
-                <div className="font-mono text-xs text-gray-500">{coaAddress}</div>
+
+              {/* COA Address */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+                    <ExternalLink className="w-4 h-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-gray-900">COA Address</div>
+                    <div className="text-xs text-gray-500">Cadence Owned Account</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <code className="font-mono text-xs text-gray-600 flex-1 truncate">
+                    {coaAddress || 'Not available'}
+                  </code>
+                  {coaAddress && (
+                    <button
+                      onClick={() => navigator.clipboard.writeText(coaAddress)}
+                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                      title="Copy COA address"
+                    >
+                      <Copy className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -427,75 +535,261 @@ export default function LeitnerLangDashboard() {
           </div>
         )}
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Quick Actions - Responsive sizing based on queue data availability */}
+        <div className={`grid grid-cols-1 gap-6 mb-8 ${queueData ? 'md:grid-cols-3' : 'md:grid-cols-3 lg:grid-cols-3'}`}>
           <button
             onClick={() => router.push('/learn')}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group"
+            className={`bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group ${
+              queueData ? 'p-6' : 'p-8 lg:p-10'
+            }`}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                <Play className="w-6 h-6 text-green-600" />
+              <div className={`bg-green-50 rounded-lg flex items-center justify-center group-hover:bg-green-100 transition-colors ${
+                queueData ? 'w-12 h-12' : 'w-16 h-16 lg:w-20 lg:h-20'
+              }`}>
+                <Play className={`text-green-600 ${queueData ? 'w-6 h-6' : 'w-8 h-8 lg:w-10 lg:h-10'}`} />
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+              <ChevronRight className={`text-gray-400 group-hover:text-gray-600 transition-colors ${
+                queueData ? 'w-5 h-5' : 'w-6 h-6 lg:w-7 lg:h-7'
+              }`} />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Start Learning</h3>
-            <p className="text-gray-600 text-sm">Review your flashcards and progress through levels</p>
+            <h3 className={`font-semibold text-gray-900 mb-2 ${queueData ? 'text-lg' : 'text-xl lg:text-2xl'}`}>
+              Start Learning
+            </h3>
+            <p className={`text-gray-600 ${queueData ? 'text-sm' : 'text-base lg:text-lg'}`}>
+              Review your flashcards and progress through levels
+            </p>
           </button>
 
           <button
             onClick={() => setShowDeckBrowser(true)}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group"
+            className={`bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group ${
+              queueData ? 'p-6' : 'p-8 lg:p-10'
+            }`}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                <Library className="w-6 h-6 text-blue-600" />
+              <div className={`bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors ${
+                queueData ? 'w-12 h-12' : 'w-16 h-16 lg:w-20 lg:h-20'
+              }`}>
+                <Library className={`text-blue-600 ${queueData ? 'w-6 h-6' : 'w-8 h-8 lg:w-10 lg:h-10'}`} />
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+              <ChevronRight className={`text-gray-400 group-hover:text-gray-600 transition-colors ${
+                queueData ? 'w-5 h-5' : 'w-6 h-6 lg:w-7 lg:h-7'
+              }`} />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Browse Decks</h3>
-            <p className="text-gray-600 text-sm">Explore available vocabulary decks and add cards</p>
+            <h3 className={`font-semibold text-gray-900 mb-2 ${queueData ? 'text-lg' : 'text-xl lg:text-2xl'}`}>
+              Browse Decks
+            </h3>
+            <p className={`text-gray-600 ${queueData ? 'text-sm' : 'text-base lg:text-lg'}`}>
+              Explore available vocabulary decks and add cards
+            </p>
           </button>
 
           <button
             onClick={() => router.push('/profile')}
-            className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group"
+            className={`bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow text-left group ${
+              queueData ? 'p-6' : 'p-8 lg:p-10'
+            }`}
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center group-hover:bg-purple-100 transition-colors">
-                <BarChart3 className="w-6 h-6 text-purple-600" />
+              <div className={`bg-purple-50 rounded-lg flex items-center justify-center group-hover:bg-purple-100 transition-colors ${
+                queueData ? 'w-12 h-12' : 'w-16 h-16 lg:w-20 lg:h-20'
+              }`}>
+                <BarChart3 className={`text-purple-600 ${queueData ? 'w-6 h-6' : 'w-8 h-8 lg:w-10 lg:h-10'}`} />
               </div>
-              <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+              <ChevronRight className={`text-gray-400 group-hover:text-gray-600 transition-colors ${
+                queueData ? 'w-5 h-5' : 'w-6 h-6 lg:w-7 lg:h-7'
+              }`} />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">View Progress</h3>
-            <p className="text-gray-600 text-sm">Check your detailed learning statistics</p>
+            <h3 className={`font-semibold text-gray-900 mb-2 ${queueData ? 'text-lg' : 'text-xl lg:text-2xl'}`}>
+              View Progress
+            </h3>
+            <p className={`text-gray-600 ${queueData ? 'text-sm' : 'text-base lg:text-lg'}`}>
+              Check your detailed learning statistics
+            </p>
           </button>
         </div>
 
-        {/* Admin Actions */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Admin Actions</h3>
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={fundAccount}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors shadow-sm"
-            >
-              Get Testnet FLOW
-            </button>
-            <button
-              onClick={() => setShowCreateDeck(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors shadow-sm"
-            >
-              Create Deck
-            </button>
-            <button
-              onClick={loadUserData}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors shadow-sm"
-            >
-              Refresh Data
-            </button>
+        {/* Leitner Queue Schedule - Full Width */}
+        {queueData && (
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <Calendar className="w-6 h-6" />
+              Leitner Queue Schedule
+            </h2>
+            
+            {/* Current Status */}
+            <div className="mb-6 p-6 rounded-lg border" style={{
+              backgroundColor: queueData.status === 'Day Complete' ? '#f0fdf4' : queueData.status === 'Light Load' ? '#eff6ff' : queueData.status === 'Normal Load' ? '#fef3c7' : '#fef2f2',
+              borderColor: queueData.status === 'Day Complete' ? '#bbf7d0' : queueData.status === 'Light Load' ? '#bfdbfe' : queueData.status === 'Normal Load' ? '#fde68a' : '#fecaca'
+            }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">Today's Status: {queueData.status}</h3>
+                  <p className="text-gray-600 mt-2">{queueData.recommendation}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-4xl font-bold text-gray-900">{queueData.currentDayCount}</div>
+                  <div className="text-gray-600">Cards Due</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Queue Visualization - Enhanced for full width */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">32-Day Queue Overview</h3>
+              <div 
+                className="grid gap-2 max-w-none"
+                style={{ 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))',
+                  maxWidth: '100%'
+                }}
+              >
+                {queueData.queueStructure && queueData.queueStructure.map((dayInfo: any, index: number) => {
+                  const dayIndex = dayInfo.day;
+                  const isToday = dayInfo.isCurrentDay;
+                  const cardCount = dayInfo.cardCount || 0;
+                  const hasCards = cardCount > 0;
+                  const isLeitnerInterval = [1, 2, 4, 8, 16, 32].includes(dayIndex);
+                  const isEstimated = dayInfo.isEstimated;
+                  
+                  return (
+                    <div
+                      key={dayIndex}
+                      className={`relative h-20 rounded border flex flex-col items-center justify-center text-xs font-medium transition-all hover:scale-105 ${
+                        isToday 
+                          ? hasCards 
+                            ? 'bg-blue-100 border-blue-300 text-blue-900 shadow-md' 
+                            : 'bg-green-100 border-green-300 text-green-900 shadow-md'
+                          : hasCards
+                            ? 'bg-yellow-50 border-yellow-300 text-yellow-900'
+                            : 'bg-gray-50 border-gray-200 text-gray-500'
+                      }`}
+                      title={`Day ${dayIndex}${isToday ? ' (Today)' : ''}${isEstimated ? ' (estimated)' : ''}: ${cardCount} cards${isLeitnerInterval ? ' - Leitner interval day' : ''}`}
+                    >
+                      <div className="text-center">
+                        <div className="text-xs font-medium">{dayIndex === 0 ? 'Today' : `+${dayIndex}`}</div>
+                        <div className="text-sm font-bold">
+                          {cardCount > 0 ? cardCount : '0'}
+                        </div>
+                        {isEstimated && cardCount > 0 && (
+                          <div className="text-xs opacity-60">est</div>
+                        )}
+                      </div>
+                      
+                      {/* Leitner intervals indicators */}
+                      {isLeitnerInterval && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full border-2 border-white" 
+                             title={`Leitner interval: ${dayIndex} days`}></div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              {/* Legend - Enhanced for better visibility */}
+              <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-600 justify-center">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-blue-100 border border-blue-300 rounded"></div>
+                  <span>Today (has cards)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>
+                  <span>Today (complete)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-yellow-50 border border-yellow-300 rounded"></div>
+                  <span>Future days (with cards)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-gray-50 border border-gray-200 rounded"></div>
+                  <span>Empty days</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
+                  <span>Leitner intervals (1,2,4,8,16,32 days)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm italic">est</span>
+                  <span>Estimated counts (based on today's cards)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Queue Analytics - Enhanced for full width */}
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-3">Queue Health</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Is Complete:</span>
+                    <span className={`font-medium ${queueData.isLeitnerDayComplete ? 'text-green-600' : 'text-orange-600'}`}>
+                      {queueData.isLeitnerDayComplete ? 'Yes' : 'No'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Total Cards:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalCards}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Total Reviews:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalReviews}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-3">Queue Statistics</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Scheduled Cards:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalScheduledCards || 0}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Active Days:</span>
+                    <span className="font-medium text-gray-900">{queueData.scheduledDays || 0}/32</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Efficiency:</span>
+                    <span className="font-medium text-gray-900">{Math.round(queueData.queueEfficiency || 0)}%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-3">Next Action</h4>
+                <p className="text-sm text-gray-600 mb-3">{queueData.nextAction}</p>
+                
+                {queueData.averageCardsPerActiveDay && queueData.averageCardsPerActiveDay > 0 && (
+                  <div className="pt-3 border-t border-gray-200">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Avg per active day:</span>
+                      <span className="font-medium text-gray-900">{Math.round(queueData.averageCardsPerActiveDay * 10) / 10}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-3">Quick Actions</h4>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => router.push('/learn')}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                  >
+                    Start Learning
+                  </button>
+                  <button
+                    onClick={() => setShowDeckBrowser(true)}
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                  >
+                    Add More Cards
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Deck Browser Modal */}
         {showDeckBrowser && (
