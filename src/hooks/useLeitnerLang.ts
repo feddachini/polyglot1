@@ -14,6 +14,17 @@ interface Profile {
   primaryLanguage: string;
   owner: string;
   createdAt: string;
+  totalCards?: number;
+  totalReviews?: number;
+  streakDays?: number;
+  cardsDueForReview?: number;
+  hasActiveProfile?: boolean;
+  profileStatus?: string;
+  averageReviewsPerCard?: number;
+  userAddress?: string;
+  cardsDueIds?: string[];
+  currentDayCards?: number;
+  isLeitnerDayComplete?: boolean;
 }
 
 export const useLeitnerLang = () => {
@@ -228,16 +239,25 @@ export const useLeitnerLang = () => {
         if (userProfile) {
           console.log('Setting profile from contract data:', userProfile);
           
-          // Clean profile data to only include Profile interface fields
+          // Enhanced profile data to include all contract fields
           const profileToSet: Profile = {
             primaryLanguage: userProfile.primaryLanguage || 'English',
             owner: flowAddress,
             createdAt: userProfile.createdAt ? 
               new Date(parseFloat(userProfile.createdAt) * 1000).toISOString() : 
-              new Date().toISOString()
+              new Date().toISOString(),
+            totalCards: userProfile.totalCards || 0,
+            totalReviews: userProfile.totalReviews || 0,
+            streakDays: userProfile.streakDays || 0,
+            cardsDueForReview: userProfile.cardsDueForReview || 0,
+            hasActiveProfile: userProfile.hasActiveProfile || false,
+            profileStatus: userProfile.profileStatus || 'Unknown',
+            averageReviewsPerCard: userProfile.averageReviewsPerCard || 0,
+            userAddress: userProfile.userAddress || flowAddress,
+            cardsDueIds: userProfile.cardsDueIds || []
           };
           
-          console.log('Clean profile being set:', profileToSet);
+          console.log('Enhanced profile being set:', profileToSet);
           setProfile(profileToSet);
         }
       } catch (profileErr) {

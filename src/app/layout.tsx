@@ -10,7 +10,7 @@ import Navigation from "@/components/Navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LeitnerLang - Multi-Language Learning",
+  title: "Polyglot - Multi-Language Learning",
   description: "Learn multiple languages simultaneously with spaced repetition",
 };
 
