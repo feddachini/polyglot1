@@ -16,6 +16,7 @@ export default function ProfilePage() {
   const { primaryWallet } = useDynamicContext();
   const { setupProfile, loading: hookLoading, error: hookError } = useLeitnerLang();
   const [profileData, setProfileData] = useState<any>(null);
+  const [queueData, setQueueData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showSetupModal, setShowSetupModal] = useState(false);
@@ -38,6 +39,18 @@ export default function ProfilePage() {
         console.log('Profile data:', profile);
         
         setProfileData(profile);
+
+        // Load queue data if profile exists
+        if (profile) {
+          try {
+            const queue = await flowService.executeScript(SCRIPTS.GET_LEITNER_QUEUE, [flowAddress]);
+            console.log('Queue data:', queue);
+            setQueueData(queue);
+          } catch (queueError) {
+            console.error('Failed to load queue data:', queueError);
+            // Don't fail the whole page if queue loading fails
+          }
+        }
       } catch (err) {
         console.error('Failed to load profile:', err);
         setError('Failed to load profile data');
@@ -278,6 +291,163 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+
+        {/* Leitner Queue Schedule */}
+        {queueData && (
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <Calendar className="w-5 h-5" />
+              Leitner Queue Schedule
+            </h2>
+            
+            {/* Current Status */}
+            <div className="mb-6 p-4 rounded-lg border" style={{
+              backgroundColor: queueData.status === 'Day Complete' ? '#f0fdf4' : queueData.status === 'Light Load' ? '#eff6ff' : queueData.status === 'Normal Load' ? '#fef3c7' : '#fef2f2',
+              borderColor: queueData.status === 'Day Complete' ? '#bbf7d0' : queueData.status === 'Light Load' ? '#bfdbfe' : queueData.status === 'Normal Load' ? '#fde68a' : '#fecaca'
+            }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-gray-900">Today's Status: {queueData.status}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{queueData.recommendation}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-gray-900">{queueData.currentDayCount}</div>
+                  <div className="text-sm text-gray-600">Cards Due</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Queue Visualization */}
+            <div className="mb-4">
+              <h3 className="font-semibold text-gray-900 mb-3">32-Day Queue Overview</h3>
+              <div className="grid grid-cols-8 gap-2">
+                {queueData.queueStructure && queueData.queueStructure.map((dayInfo: any, index: number) => {
+                  const dayIndex = dayInfo.day;
+                  const isToday = dayInfo.isCurrentDay;
+                  const cardCount = dayInfo.cardCount || 0;
+                  const hasCards = cardCount > 0;
+                  const isLeitnerInterval = dayInfo.isLeitnerInterval;
+                  const isEstimated = dayInfo.isEstimated;
+                  
+                  return (
+                    <div
+                      key={dayIndex}
+                      className={`relative h-16 rounded border flex flex-col items-center justify-center text-xs font-medium ${
+                        isToday 
+                          ? hasCards 
+                            ? 'bg-blue-100 border-blue-300 text-blue-900' 
+                            : 'bg-green-100 border-green-300 text-green-900'
+                          : hasCards
+                            ? 'bg-yellow-50 border-yellow-300 text-yellow-900'
+                            : 'bg-gray-50 border-gray-200 text-gray-500'
+                      }`}
+                      title={`Day ${dayIndex}${isToday ? ' (Today)' : ''}${isEstimated ? ' (estimated)' : ''}: ${cardCount} cards${isLeitnerInterval ? ' - Leitner interval day' : ''}`}
+                    >
+                      <div className="text-center">
+                        <div className="text-xs">{dayIndex === 0 ? 'Today' : `+${dayIndex}`}</div>
+                        <div className="text-xs font-bold">
+                          {cardCount > 0 ? cardCount : '0'}
+                        </div>
+                        {isEstimated && cardCount > 0 && (
+                          <div className="text-xs opacity-60">est</div>
+                        )}
+                      </div>
+                      
+                      {/* Leitner intervals indicators */}
+                      {isLeitnerInterval && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full border-2 border-white" 
+                             title={`Leitner interval: ${dayIndex} days`}></div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              {/* Legend */}
+              <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-600">
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-blue-100 border border-blue-300 rounded"></div>
+                  <span>Today (has cards)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-green-100 border border-green-300 rounded"></div>
+                  <span>Today (complete)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-yellow-50 border border-yellow-300 rounded"></div>
+                  <span>Future days (with cards)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-gray-50 border border-gray-200 rounded"></div>
+                  <span>Empty days</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  <span>Leitner intervals (1,2,4,8,16,32 days)</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-xs italic">est</span>
+                  <span>Estimated counts (based on today's cards)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Queue Analytics */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-2">Queue Health</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Is Complete:</span>
+                    <span className={`font-medium ${queueData.isLeitnerDayComplete ? 'text-green-600' : 'text-orange-600'}`}>
+                      {queueData.isLeitnerDayComplete ? 'Yes' : 'No'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Total Cards:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalCards}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Total Reviews:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalReviews}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-2">Queue Statistics</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Scheduled Cards:</span>
+                    <span className="font-medium text-gray-900">{queueData.totalScheduledCards || 0}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Active Days:</span>
+                    <span className="font-medium text-gray-900">{queueData.scheduledDays || 0}/32</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Efficiency:</span>
+                    <span className="font-medium text-gray-900">{Math.round(queueData.queueEfficiency || 0)}%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-2">Next Action</h4>
+                <p className="text-sm text-gray-600">{queueData.nextAction}</p>
+                
+                {queueData.averageCardsPerActiveDay && queueData.averageCardsPerActiveDay > 0 && (
+                  <div className="mt-2 pt-2 border-t border-gray-200">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Avg per active day:</span>
+                      <span className="font-medium text-gray-900">{Math.round(queueData.averageCardsPerActiveDay * 10) / 10}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

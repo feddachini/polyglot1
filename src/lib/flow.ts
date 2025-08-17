@@ -259,7 +259,7 @@ access(all) fun main(deckId: UInt64): [{String: AnyStruct}] {
 }
   `,
 
-  // Get Leitner queue information
+  // Get Leitner queue information with detailed daily card counts
   GET_LEITNER_QUEUE: `
 import LeitnerLang from 0x17c88b3a4fab12ef
 
@@ -291,6 +291,87 @@ access(all) fun main(userAddress: Address): {String: AnyStruct}? {
         queueInfo["totalReviews"] = stats["totalReviews"]
         queueInfo["streakDays"] = stats["streakDays"]
         
+        // Build detailed queue structure with card counts for each day
+        var queueStructure: [{String: AnyStruct}] = []
+        var totalScheduledCards = 0
+        var scheduledDays = 0
+        
+        // Day 0 (current day) - we have actual data
+        var currentDayInfo: {String: AnyStruct} = {}
+        currentDayInfo["day"] = 0
+        currentDayInfo["description"] = "Current Day (Due Now)"
+        currentDayInfo["cardCount"] = currentDayCards.length
+        currentDayInfo["isCurrentDay"] = true
+        
+        queueStructure.append(currentDayInfo)
+        
+        if currentDayCards.length > 0 {
+            totalScheduledCards = totalScheduledCards + currentDayCards.length
+            scheduledDays = scheduledDays + 1
+        }
+        
+        // Estimate future days based on current cards and their expected intervals
+        // Note: We can't access the full queue directly, so we'll estimate based on Leitner intervals
+        var futureDayCounts: {Int: Int} = {}
+        
+        // For each card due today, estimate when it might reappear if answered correctly
+        for cardId in currentDayCards {
+            if let cardLevel = profileRef.getCardLevel(cardId: cardId) {
+                // If answered correctly, what would be the next interval?
+                let nextLevel: UInt8 = cardLevel == 7 ? 0 : (cardLevel < 7 ? cardLevel + 1 : cardLevel)
+                
+                if nextLevel > 0 && nextLevel <= 6 {
+                    let intervals = [1, 2, 4, 8, 16, 32]
+                    let daysAhead = intervals[nextLevel - 1]
+                    
+                    if futureDayCounts[daysAhead] == nil {
+                        futureDayCounts[daysAhead] = 1
+                    } else {
+                        futureDayCounts[daysAhead] = futureDayCounts[daysAhead]! + 1
+                    }
+                }
+            }
+        }
+        
+        // Days 1-31 (future days) - estimated based on intervals
+        var day = 1
+        while day < 32 {
+            var dayInfo: {String: AnyStruct} = {}
+            dayInfo["day"] = day
+            dayInfo["description"] = "Day +".concat(day.toString()).concat(" (Future)")
+            
+            let estimatedCardCount = futureDayCounts[day] ?? 0
+            dayInfo["cardCount"] = estimatedCardCount
+            dayInfo["isCurrentDay"] = false
+            dayInfo["isEstimated"] = true
+            
+            if [1, 2, 4, 8, 16, 32].contains(day) {
+                dayInfo["isLeitnerInterval"] = true
+                dayInfo["intervalNote"] = "Leitner interval day"
+            } else {
+                dayInfo["isLeitnerInterval"] = false
+            }
+            
+            queueStructure.append(dayInfo)
+            
+            if estimatedCardCount > 0 {
+                totalScheduledCards = totalScheduledCards + estimatedCardCount
+                scheduledDays = scheduledDays + 1
+            }
+            
+            day = day + 1
+        }
+        
+        queueInfo["queueStructure"] = queueStructure
+        queueInfo["totalScheduledCards"] = totalScheduledCards
+        queueInfo["scheduledDays"] = scheduledDays
+        queueInfo["emptyDays"] = 32 - scheduledDays
+        
+        // Queue analytics
+        queueInfo["queueEfficiency"] = totalScheduledCards > 0 ? (UFix64(scheduledDays) / 32.0) * 100.0 : 0.0
+        queueInfo["averageCardsPerActiveDay"] = scheduledDays > 0 ? UFix64(totalScheduledCards) / UFix64(scheduledDays) : 0.0
+        
+        // Status and recommendations
         if currentDayCards.length == 0 {
             queueInfo["recommendation"] = "🎉 Current day complete! Queue will rotate when you add more cards or complete a review session."
             queueInfo["status"] = "Day Complete"

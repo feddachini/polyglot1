@@ -239,6 +239,11 @@ export default function LeitnerLangDashboard() {
 
   // Toggle language selection
   const toggleLanguage = (langCode: string) => {
+    // Don't allow deselecting the primary language
+    if (langCode === profile?.primaryLanguage) {
+      return;
+    }
+    
     setSelectedLanguages((prev) =>
       prev.includes(langCode)
         ? prev.filter((code) => code !== langCode)

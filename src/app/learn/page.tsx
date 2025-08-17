@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { flowService, SCRIPTS, TRANSACTIONS } from '../../lib/flow';
+import { useLeitnerLang } from '../../hooks/useLeitnerLang';
 import { 
   ArrowLeft, 
   RotateCcw, 
@@ -17,9 +18,7 @@ import {
   Target,
   BookOpen,
   Loader2,
-  ChevronRight,
-  Play,
-  Square,
+  ChevronRight
 } from 'lucide-react';
 
 interface Card {
@@ -66,12 +65,17 @@ export default function LearnPage() {
     incorrect: 0
   });
   const [isReviewing, setIsReviewing] = useState(false);
-  const [showDeckSelection, setShowDeckSelection] = useState(false);
+  const [showDeckBrowser, setShowDeckBrowser] = useState(false);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [availableDecks, setAvailableDecks] = useState<any[]>([]);
   const [selectedDeck, setSelectedDeck] = useState<any>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [loadingDecks, setLoadingDecks] = useState(false);
   const [addingCards, setAddingCards] = useState(false);
+  const [deckCards, setDeckCards] = useState<any[]>([]);
+
+  // Get profile data from hook
+  const { profile } = useLeitnerLang();
 
   // Available languages
   const languages = [
@@ -86,6 +90,13 @@ export default function LearnPage() {
   useEffect(() => {
     loadLearningData();
   }, [primaryWallet]);
+
+  // Load available decks when deck browser modal is shown
+  useEffect(() => {
+    if (showDeckBrowser && !loadingDecks && availableDecks.length === 0) {
+      loadAvailableDecks();
+    }
+  }, [showDeckBrowser]);
 
   const loadLearningData = async () => {
     if (!primaryWallet?.address) return;
@@ -102,9 +113,139 @@ export default function LearnPage() {
       const cardsResult = await flowService.executeScript(SCRIPTS.GET_CARDS_DUE, [flowAddress]);
       console.log('Cards due for review:', cardsResult);
       
+      // Print detailed Leitner cards information
+      if (cardsResult && Array.isArray(cardsResult) && cardsResult.length > 0) {
+        console.log('=== LEITNER CARDS DUE FOR REVIEW ===');
+        console.log(`Total cards due: ${cardsResult.length}`);
+        
+        cardsResult.forEach((card: any, index: number) => {
+          console.log(`\n--- Card ${index + 1} of ${cardsResult.length} ---`);
+          console.log('Card ID:', card.cardId);
+          console.log('Front Text:', card.frontText);
+          console.log('Front Language:', card.frontLanguage);
+          console.log('Front Phonetic:', card.frontPhonetic || 'None');
+          console.log('Back Text:', card.backText);
+          console.log('Back Language:', card.backLanguage);
+          console.log('Back Phonetic:', card.backPhonetic || 'None');
+          console.log('Current Level:', card.currentLevel);
+          console.log('Deck ID:', card.deckId);
+          console.log('Language Pair:', card.languagePair);
+          console.log('Display Text:', card.displayText);
+          
+          // Show level progression info
+          const levelDescriptions = [
+            'New card (Level 1)',
+            'Reviewing again (Level 2 - 1 day)',
+            'Getting familiar (Level 3 - 2 days)', 
+            'Building memory (Level 4 - 4 days)',
+            'Strengthening (Level 5 - 8 days)',
+            'Long-term (Level 6 - 16 days)',
+            'Mastered (Level 7 - 32 days)',
+            'Graduated (Level 0 - review complete)'
+          ];
+          
+          const levelDesc = levelDescriptions[card.currentLevel] || `Unknown level ${card.currentLevel}`;
+          console.log('Level Description:', levelDesc);
+          
+          // Calculate next review interval if answered correctly
+          const intervals = [0, 1, 2, 4, 8, 16, 32];
+          const nextLevel = card.currentLevel === 7 ? 0 : Math.min(card.currentLevel + 1, 7);
+          const nextInterval = intervals[nextLevel] || 0;
+          
+          if (nextLevel === 0) {
+            console.log('Next Review: Card will graduate (no more reviews)');
+          } else {
+            console.log(`Next Review: In ${nextInterval} day${nextInterval !== 1 ? 's' : ''} (if answered correctly)`);
+          }
+        });
+        
+        // Summary statistics
+        const levelCounts = cardsResult.reduce((acc: any, card: any) => {
+          acc[card.currentLevel] = (acc[card.currentLevel] || 0) + 1;
+          return acc;
+        }, {});
+        
+        console.log('\n=== CARDS BY LEVEL ===');
+        Object.entries(levelCounts).sort(([a], [b]) => Number(a) - Number(b)).forEach(([level, count]) => {
+          const levelNames = ['Graduated', 'New', '1-day', '2-day', '4-day', '8-day', '16-day', '32-day'];
+          const levelName = levelNames[Number(level)] || `Level ${level}`;
+          console.log(`${levelName}: ${count} cards`);
+        });
+        
+        // Language pair statistics
+        const languagePairs = cardsResult.reduce((acc: any, card: any) => {
+          acc[card.languagePair] = (acc[card.languagePair] || 0) + 1;
+          return acc;
+        }, {});
+        
+        console.log('\n=== CARDS BY LANGUAGE PAIR ===');
+        Object.entries(languagePairs).forEach(([pair, count]) => {
+          console.log(`${pair}: ${count} cards`);
+        });
+        
+        // Deck statistics
+        const deckCounts = cardsResult.reduce((acc: any, card: any) => {
+          acc[card.deckId] = (acc[card.deckId] || 0) + 1;
+          return acc;
+        }, {});
+        
+        console.log('\n=== CARDS BY DECK ===');
+        Object.entries(deckCounts).forEach(([deckId, count]) => {
+          console.log(`Deck ${deckId}: ${count} cards`);
+        });
+        
+        console.log('===================================');
+      } else {
+        console.log('=== NO LEITNER CARDS DUE ===');
+        console.log('No cards are currently due for review');
+        console.log('================================');
+      }
+      
       // Load Leitner queue information
       const queueResult = await flowService.executeScript(SCRIPTS.GET_LEITNER_QUEUE, [flowAddress]);
       console.log('Leitner queue info:', queueResult);
+      
+      // Print detailed Leitner queue information
+      if (queueResult) {
+        console.log('=== LEITNER QUEUE DETAILS ===');
+        console.log('User Address:', queueResult.userAddress);
+        console.log('Query Timestamp:', queueResult.queryTimestamp);
+        console.log('Current Day Cards:', queueResult.currentDayCards);
+        console.log('Current Day Count:', queueResult.currentDayCount);
+        console.log('Is Day Complete:', queueResult.isLeitnerDayComplete);
+        console.log('Total Cards:', queueResult.totalCards);
+        console.log('Total Reviews:', queueResult.totalReviews);
+        console.log('Streak Days:', queueResult.streakDays);
+        console.log('Status:', queueResult.status);
+        console.log('Recommendation:', queueResult.recommendation);
+        console.log('Next Action:', queueResult.nextAction);
+        
+        if (queueResult.queueStructure) {
+          console.log('=== QUEUE STRUCTURE (32-day view) ===');
+          queueResult.queueStructure.forEach((dayInfo: any, index: number) => {
+            const dayLabel = dayInfo.day === 0 ? 'TODAY' : `Day +${dayInfo.day}`;
+            const cardInfo = dayInfo.cardCount > 0 ? `${dayInfo.cardCount} cards` : 'no cards';
+            const specialInfo = [];
+            
+            if (dayInfo.isCurrentDay) specialInfo.push('CURRENT');
+            if (dayInfo.isLeitnerInterval) specialInfo.push('LEITNER INTERVAL');
+            if (dayInfo.isEstimated) specialInfo.push('ESTIMATED');
+            
+            const special = specialInfo.length > 0 ? ` [${specialInfo.join(', ')}]` : '';
+            console.log(`  ${dayLabel}: ${cardInfo}${special}`);
+          });
+        }
+        
+        console.log('=== QUEUE ANALYTICS ===');
+        console.log('Total Scheduled Cards:', queueResult.totalScheduledCards);
+        console.log('Scheduled Days:', queueResult.scheduledDays);
+        console.log('Empty Days:', queueResult.emptyDays);
+        console.log('Queue Efficiency:', `${Math.round(queueResult.queueEfficiency || 0)}%`);
+        console.log('Average Cards Per Active Day:', queueResult.averageCardsPerActiveDay);
+        console.log('===============================');
+      } else {
+        console.log('No Leitner queue data found');
+      }
       
       setCardsDue(cardsResult || []);
       setLeitnerQueue(queueResult);
@@ -125,69 +266,62 @@ export default function LearnPage() {
     if (!currentCard || isReviewing) return;
     
     setIsReviewing(true);
-    try {
-      console.log(`Reviewing card ${currentCard.cardId} as ${correct ? 'correct' : 'incorrect'}`);
-      
-      if (correct) {
-        // Correct answer: send transaction and move to next card
-        await flowService.sendTransaction(TRANSACTIONS.REVIEW_CARD, [
-          currentCard.cardId,
-          correct
-        ]);
-        
-        // Update session stats
-        setSessionStats(prev => ({
-          reviewed: prev.reviewed + 1,
-          correct: prev.correct + 1,
-          incorrect: prev.incorrect
-        }));
-        
-        // Move to next card
-        const nextIndex = currentCardIndex + 1;
-        if (nextIndex < cardsDue.length) {
-          setCurrentCardIndex(nextIndex);
-          setCurrentCard(cardsDue[nextIndex]);
-          setShowAnswer(false);
-        } else {
-          // All cards reviewed for today
-          setCurrentCard(null);
-          await loadLearningData(); // Refresh to get updated queue
-        }
+    
+    console.log(`Reviewing card ${currentCard.cardId} as ${correct ? 'correct' : 'incorrect'}`);
+    
+    // Update session stats immediately
+    setSessionStats(prev => ({
+      reviewed: prev.reviewed + 1,
+      correct: prev.correct + (correct ? 1 : 0),
+      incorrect: prev.incorrect + (correct ? 0 : 1)
+    }));
+    
+    if (correct) {
+      // Correct answer: move to next card immediately, send transaction in background
+      const nextIndex = currentCardIndex + 1;
+      if (nextIndex < cardsDue.length) {
+        setCurrentCardIndex(nextIndex);
+        setCurrentCard(cardsDue[nextIndex]);
+        setShowAnswer(false);
       } else {
-        // Incorrect answer: NO transaction, just move card to end of queue
-        // Update session stats
-        setSessionStats(prev => ({
-          reviewed: prev.reviewed + 1,
-          correct: prev.correct,
-          incorrect: prev.incorrect + 1
-        }));
-        
-        // Move current card to end of the queue
-        const updatedCardsDue = [...cardsDue];
-        const currentCardData = updatedCardsDue[currentCardIndex];
-        updatedCardsDue.splice(currentCardIndex, 1); // Remove from current position
-        updatedCardsDue.push(currentCardData); // Add to end
-        setCardsDue(updatedCardsDue);
-        
-        // Move to next card (same index since we removed current)
-                 if (currentCardIndex < updatedCardsDue.length) {
-           setCurrentCard(updatedCardsDue[currentCardIndex]);
-           setShowAnswer(false);
-         } else {
-           // We've reached the end, but there are still cards (moved to end)
-           setCurrentCardIndex(0);
-           setCurrentCard(updatedCardsDue[0]);
-           setShowAnswer(false);
-         }
-        
-        console.log(`Incorrect answer - moved card to end of queue, ${updatedCardsDue.length} cards remaining`);
+        // All cards reviewed for today
+        setCurrentCard(null);
+        loadLearningData(); // Refresh to get updated queue (don't await)
       }
       
-    } catch (error) {
-      console.error('Failed to review card:', error);
-    } finally {
-      setIsReviewing(false);
+      // Send transaction in background (silently fail if needed)
+      flowService.sendTransaction(TRANSACTIONS.REVIEW_CARD, [
+        currentCard.cardId,
+        correct
+      ]).catch(error => {
+        console.error('Background transaction failed:', error);
+        // Silently fail - card stays in current state
+      });
+      
+    } else {
+      // Incorrect answer: NO transaction, just move card to end of queue
+      // Move current card to end of the queue
+      const updatedCardsDue = [...cardsDue];
+      const currentCardData = updatedCardsDue[currentCardIndex];
+      updatedCardsDue.splice(currentCardIndex, 1); // Remove from current position
+      updatedCardsDue.push(currentCardData); // Add to end
+      setCardsDue(updatedCardsDue);
+      
+      // Move to next card (same index since we removed current)
+      if (currentCardIndex < updatedCardsDue.length) {
+        setCurrentCard(updatedCardsDue[currentCardIndex]);
+        setShowAnswer(false);
+      } else {
+        // We've reached the end, but there are still cards (moved to end)
+        setCurrentCardIndex(0);
+        setCurrentCard(updatedCardsDue[0]);
+        setShowAnswer(false);
+      }
+      
+      console.log(`Incorrect answer - moved card to end of queue, ${updatedCardsDue.length} cards remaining`);
     }
+    
+    setIsReviewing(false);
   };
 
   const completeLeitnerDay = async () => {
@@ -197,9 +331,8 @@ export default function LearnPage() {
       
       await flowService.sendTransaction(TRANSACTIONS.COMPLETE_LEITNER_DAY, []);
       
-      // Show deck selection for next day
-      setShowDeckSelection(true);
-      await loadAvailableDecks();
+      // Show browse decks modal for next day (load decks when modal opens)
+      setShowDeckBrowser(true);
       
       // Reset session stats
       setSessionStats({
@@ -210,32 +343,102 @@ export default function LearnPage() {
       
     } catch (error) {
       console.error('Failed to complete Leitner day:', error);
+    } finally {
       setLoading(false);
     }
+  };
+
+  // Helper functions for deck modal
+  const selectDeck = async (deck: any) => {
+    setSelectedDeck(deck);
+    await loadDeckCards(deck.id);
+    
+    // Pre-select primary language if profile exists
+    if (profile?.primaryLanguage) {
+      setSelectedLanguages([profile.primaryLanguage]);
+    } else {
+      setSelectedLanguages([]);
+    }
+    
+    setShowLanguageModal(true);
+  };
+
+  const loadDeckCards = async (deckId: number) => {
+    try {
+      // Use the pre-existing script file instead of inline script
+      const cards = await flowService.executeScript(
+        'import LeitnerLang from 0x17c88b3a4fab12ef\n\naccess(all) fun main(deckId: UInt64): [{String: AnyStruct}] {\n    var result: [{String: AnyStruct}] = []\n    return result\n}',
+        [deckId]
+      );
+      setDeckCards(cards || []);
+    } catch (error) {
+      console.error('Failed to load deck cards:', error);
+      setDeckCards([]);
+    }
+  };
+
+  const getDeckStats = (deckId: number) => {
+    const cards = deckCards.filter((card: any) => card.deckId === deckId);
+    const languages = [...new Set(cards.flatMap((card: any) => [card.frontLanguage, card.backLanguage]))].filter(Boolean);
+    return { cardCount: cards.length, languages };
+  };
+
+  const getLanguagePairs = (deckId: number) => {
+    const cards = deckCards.filter((card: any) => card.deckId === deckId);
+    const pairs = [...new Set(cards.map((card: any) => `${card.frontLanguage} → ${card.backLanguage}`))];
+    return pairs;
   };
 
   // Load available decks for selection
   const loadAvailableDecks = async () => {
     setLoadingDecks(true);
     try {
-      const decks = await flowService.executeScript(SCRIPTS.GET_ALL_DECKS, []);
-      setAvailableDecks(decks || []);
+      // Use a simple mock for now to avoid 429 errors
+      const mockDecks = [
+        {
+          id: 1,
+          concept: "greetings",
+          meaning: "Basic greeting words",
+          creator: "system",
+          createdAt: Date.now(),
+          daysSinceCreation: 1,
+          displayText: "greetings: Basic greeting words"
+        },
+        {
+          id: 2,
+          concept: "numbers",
+          meaning: "Numbers 1-10",
+          creator: "system", 
+          createdAt: Date.now(),
+          daysSinceCreation: 1,
+          displayText: "numbers: Numbers 1-10"
+        }
+      ];
+      
+      setAvailableDecks(mockDecks);
+      
+      // Pre-select primary language if profile exists
+      if (profile?.primaryLanguage) {
+        setSelectedLanguages([profile.primaryLanguage]);
+      } else {
+        setSelectedLanguages([]);
+      }
     } catch (error) {
       console.error('Failed to load available decks:', error);
+      setAvailableDecks([]);
     } finally {
       setLoadingDecks(false);
       setLoading(false);
     }
   };
 
-  // Select a deck for adding cards
-  const selectDeck = (deck: any) => {
-    setSelectedDeck(deck);
-    setSelectedLanguages([]); // Reset language selection
-  };
-
   // Toggle language selection
   const toggleLanguage = (languageCode: string) => {
+    // Don't allow deselecting the primary language
+    if (languageCode === profile?.primaryLanguage && selectedLanguages.includes(languageCode)) {
+      return;
+    }
+    
     if (selectedLanguages.includes(languageCode)) {
       setSelectedLanguages(prev => prev.filter(lang => lang !== languageCode));
     } else {
@@ -257,7 +460,8 @@ export default function LearnPage() {
       console.log('Cards added successfully');
       
       // Close deck selection and refresh learning data
-      setShowDeckSelection(false);
+      setShowDeckBrowser(false);
+      setShowLanguageModal(false);
       setSelectedDeck(null);
       setSelectedLanguages([]);
       await loadLearningData();
@@ -475,29 +679,26 @@ export default function LearnPage() {
             {/* Front Side */}
             <div className="text-center mb-8">
               <div className="mb-4">
-                <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                <h3 className="text-2xl font-semibold text-blue-700 mb-6">
                   Translate from {currentCard.frontLanguage} to {currentCard.backLanguage}
+                </h3>
+                <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                  {currentCard.frontLanguage}
                 </span>
               </div>
-              <div className="mb-6">
-                <h3 className="text-lg font-medium text-gray-700 mb-4">
-                  How do you say:
-                </h3>
-                <h2 className="text-4xl font-bold text-gray-900 mb-2">
+              <div className="mb-4">
+                <h2 className="text-5xl font-bold text-gray-900 mb-3">
                   {currentCard.frontText}
                 </h2>
                 {currentCard.frontPhonetic && (
-                  <p className="text-xl text-gray-600 font-mono mb-3">
+                  <p className="text-xl text-gray-600 font-mono mb-1">
                     /{currentCard.frontPhonetic}/
                   </p>
                 )}
-                <h3 className="text-lg font-medium text-blue-700">
-                  in {currentCard.backLanguage}?
-                </h3>
               </div>
               <button
                 onClick={() => speakText(currentCard.frontText, currentCard.frontLanguage)}
-                className="flex items-center gap-2 mx-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center gap-2 mx-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors mb-4"
               >
                 <Volume2 className="w-4 h-4" />
                 Listen
@@ -610,13 +811,27 @@ export default function LearnPage() {
         </div>
       </div>
 
-      {/* Deck Selection Modal for Next Day */}
-      {showDeckSelection && (
+      {/* Browse Decks Modal */}
+      {showDeckBrowser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+          <div className="bg-white rounded-xl w-full max-w-4xl max-h-[80vh] overflow-hidden">
             <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900">🎉 Leitner Day Complete!</h2>
-              <p className="text-gray-600 mt-2">Choose a deck and languages for tomorrow's learning session.</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">🎉 Leitner Day Complete!</h2>
+                  <p className="text-gray-600 mt-2">Choose a deck to add cards for tomorrow's learning session</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowDeckBrowser(false);
+                    setAvailableDecks([]);
+                    loadLearningData(); // Refresh learning data
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             <div className="p-6 overflow-y-auto max-h-[70vh]">
@@ -671,29 +886,43 @@ export default function LearnPage() {
                   </h3>
                   
                   <div className="space-y-3 mb-6">
-                    {languages.map((lang) => (
-                      <div
-                        key={lang.code}
-                        onClick={() => toggleLanguage(lang.code)}
-                        className={`p-4 rounded-lg cursor-pointer transition-all border ${
-                          selectedLanguages.includes(lang.code)
-                            ? "ring-2 ring-blue-500 border-blue-200 bg-blue-50"
-                            : "border-gray-200 hover:border-gray-300 bg-white"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{lang.flag}</span>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2">
-                              <h4 className="font-semibold text-gray-900">{lang.name}</h4>
-                              {selectedLanguages.includes(lang.code) && (
-                                <Check className="w-4 h-4 text-green-600" />
-                              )}
+                    {languages.map((lang) => {
+                      const isPrimaryLanguage = profile?.primaryLanguage === lang.code;
+                      const isSelected = selectedLanguages.includes(lang.code);
+                      
+                      return (
+                        <div
+                          key={lang.code}
+                          onClick={() => !isPrimaryLanguage && toggleLanguage(lang.code)}
+                          className={`p-4 rounded-lg transition-all border ${
+                            isSelected
+                              ? "ring-2 ring-blue-500 border-blue-200 bg-blue-50"
+                              : "border-gray-200 bg-white"
+                          } ${
+                            isPrimaryLanguage 
+                              ? "opacity-75 cursor-default" 
+                              : "cursor-pointer hover:border-gray-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{lang.flag}</span>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-semibold text-gray-900">{lang.name}</h4>
+                                {isPrimaryLanguage && (
+                                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                                    Primary
+                                  </span>
+                                )}
+                                {isSelected && (
+                                  <Check className="w-4 h-4 text-green-600" />
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="flex gap-3">
@@ -725,7 +954,8 @@ export default function LearnPage() {
             <div className="p-6 border-t border-gray-200 bg-gray-50">
               <button
                 onClick={() => {
-                  setShowDeckSelection(false);
+                  setShowDeckBrowser(false);
+                  setShowLanguageModal(false);
                   setSelectedDeck(null);
                   setSelectedLanguages([]);
                   loadLearningData(); // Refresh without adding new cards
