@@ -24,6 +24,26 @@ export default function RootLayout({
           settings={{
             environmentId: "c237f1c5-d54f-43a0-aa17-ab017f738e3f",
             walletConnectors: [FlowWalletConnectors],
+            overrides: {
+              evmNetworks: [
+                {
+                  blockExplorerUrls: ['https://evm-testnet.flowscan.io/'],
+                  chainId: 545,
+                  chainName: 'Flow EVM Testnet',
+                  iconUrls: ["https://app.dynamic.xyz/assets/networks/flow.svg"],
+                  name: 'Flow Testnet',
+                  nativeCurrency: {
+                    decimals: 18,
+                    name: 'FLOW',
+                    symbol: 'FLOW',
+                    iconUrl: 'https://app.dynamic.xyz/assets/networks/flow.svg',
+                  },
+                  networkId: 545,
+                  rpcUrls: ['https://testnet.evm.nodes.onflow.org'],
+                  vanityName: 'Flow Testnet',
+                }
+              ]
+            },
           }}
         >
           {children}
