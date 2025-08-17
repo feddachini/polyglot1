@@ -1,5 +1,5 @@
-import LeitnerLang from '@/components/LeitnerLang';
+import LeitnerLangDashboard from '@/components/LeitnerLangDashboard';
 
 export default function Home() {
-  return <LeitnerLang />;
+  return <LeitnerLangDashboard />;
 }

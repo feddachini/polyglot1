@@ -17,6 +17,15 @@
 				"testnet": "9a0766d93b6608b7"
 			}
 		},
+		"EVM": {
+			"source": "testnet://8c5303eaa26202d6.EVM",
+			"hash": "",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "e467b9dd11fa00df",
+				"testnet": "8c5303eaa26202d6"
+			}
+		},
 		"FungibleToken": {
 			"source": "mainnet://f233dcee88fe0abe.FungibleToken",
 			"hash": "23c1159cf99b2b039b6b868d782d57ae39b8d784045d81597f100a4782f0285b",
@@ -69,7 +78,7 @@
 			}
 		},
 		"testnet-acct-1": {
-			"address": "984a68faa5fc5e12",
+			"address": "17c88b3a4fab12ef",
 			"key": {
 				"type": "file",
 				"location": "testnet-acct-1.pkey"
