@@ -14,8 +14,8 @@ export default function Navigation() {
   const navItems = [
     {
       label: 'Dashboard',
-      icon: Home,
-      path: '/',
+      icon: Home, 
+      path: '/dashboard',
       requiresAuth: true,
     },
     {

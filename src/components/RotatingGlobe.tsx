@@ -13,55 +13,63 @@ const RotatingGlobe: React.FC = () => {
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
-      style: 'mapbox://styles/mapbox/standard-satellite',
-      zoom: 1.5,
-      center: [-90, 40],
-      projection: 'globe'
+      style: {
+        version: 8,
+        sources: {
+          // Use Mapbox vector tiles as base
+          "vector-tiles": {
+            type: "vector",
+            url: "mapbox://mapbox.mapbox-streets-v8"
+          }
+        },
+        layers: [
+          // Background (white page bg)
+          {
+            id: "background",
+            type: "background",
+            paint: {
+              "background-color": "#ffffff"
+            }
+          },
+          // Oceans
+          {
+            id: "water",
+            source: "vector-tiles",
+            "source-layer": "water",
+            type: "fill",
+            paint: {
+              "fill-color": "#111111" // darkgray
+            }
+          },
+          // Land
+          {
+            id: "land",
+            source: "vector-tiles",
+            "source-layer": "land",
+            type: "fill",
+            paint: {
+              "fill-color": "#3BB273" // simple green
+            }
+          },
+          // Country borders (optional subtle outline
+        ]
+      },
+      center: [0, 20], // center on globe
+      zoom: window.innerWidth < 768 ? 1.8 : 2.4, // responsive zoom: smaller on mobile
+      projection: "globe",
+      interactive: false
     });
 
-    map.style.stylesheet.layers.forEach(function(layer) {
-    if (layer.type === 'symbol') {
-        map.setLayoutProperty(layer.id, "visibility", "none");
-    }
-    });
-
-    map.on('style.load', () => {
-      map.setFog({});
-    });
-
-    // Rotation control variables
-    const secondsPerRevolution = 120;
-    const maxSpinZoom = 5;
-    const slowSpinZoom = 3;
-    let userInteracting = false;
-    let spinEnabled = true;
-
-    function spinGlobe() {
-      const zoom = map.getZoom();
-      if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
-        let distancePerSecond = 360 / secondsPerRevolution;
-        if (zoom > slowSpinZoom) {
-          const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
-          distancePerSecond *= zoomDif;
-        }
-        const center = map.getCenter();
-        center.lng -= distancePerSecond;
-        map.easeTo({ center, duration: 1000, easing: (n) => n });
+    // Make the globe spin slowly
+    map.on("load", () => {
+      let rotate = 0;
+      function spinGlobe() {
+        rotate -= 0.04; // faster rotation speed
+        map.setCenter([rotate, 20]);
+        requestAnimationFrame(spinGlobe);
       }
-    }
-
-    // Pause spinning on interaction
-    map.on('mousedown', () => { userInteracting = true; });
-    map.on('mouseup', () => { userInteracting = false; spinGlobe(); });
-    map.on('dragend', () => { userInteracting = false; spinGlobe(); });
-    map.on('pitchend', () => { userInteracting = false; spinGlobe(); });
-    map.on('rotateend', () => { userInteracting = false; spinGlobe(); });
-
-    // When animation is complete, start spinning if there is no ongoing interaction
-    map.on('moveend', () => { spinGlobe(); });
-
-    // Start spinning
-    spinGlobe();
+      spinGlobe();
+    });
 
     mapRef.current = map;
 
@@ -73,7 +81,12 @@ const RotatingGlobe: React.FC = () => {
   return (
     <div
       ref={mapContainerRef}
-      style={{ width: '100%', height: '100vh' }}
+      style={{ 
+        width: '100%', 
+        height: '100vh',
+        cursor: 'default' // Remove pointer cursor since interaction is disabled
+      }}
+      className="globe-container"
     />
   );
 };

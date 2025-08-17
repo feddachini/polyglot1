@@ -497,7 +497,7 @@ export default function LearnPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Connect Your Wallet</h2>
           <p className="text-gray-600 mb-6">You need to connect your wallet to access the learning system.</p>
           <button
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/dashboard')}
             className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Go to Dashboard
@@ -527,7 +527,7 @@ export default function LearnPage() {
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
             <button 
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/dashboard')}
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -601,7 +601,7 @@ export default function LearnPage() {
                     Add More Cards
                   </button>
                   <button
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push('/dashboard')}
                     className="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors"
                   >
                     Back to Dashboard
@@ -622,7 +622,7 @@ export default function LearnPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button 
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/dashboard')}
             className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />

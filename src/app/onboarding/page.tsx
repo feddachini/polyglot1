@@ -583,7 +583,7 @@ export default function OnboardingFlow() {
                   }
                   
                   // Redirect to main dashboard
-                  router.push("/");
+                  router.push("/dashboard");
                 } catch (error) {
                   console.error("Error saving onboarding data:", error);
                 }
