@@ -1,0 +1,459 @@
+// CREATE DECK
+concept: "water"
+meaning: "the clear liquid essential for life"
+
+// CREATE CARDS (assuming deckId: 1)
+frontText: "water", frontPhonetic: "WAW-ter", frontLanguage: "English", backText: "agua", backPhonetic: "AH-gwah", backLanguage: "Spanish", deckId: 1
+
+frontText: "water", frontPhonetic: "WAW-ter", frontLanguage: "English", backText: "acqua", backPhonetic: "AH-kwah", backLanguage: "Italian", deckId: 1
+
+frontText: "water", frontPhonetic: "WAW-ter", frontLanguage: "English", backText: "eau", backPhonetic: "OH", backLanguage: "French", deckId: 1
+
+frontText: "water", frontPhonetic: "WAW-ter", frontLanguage: "English", backText: "Wasser", backPhonetic: "VAH-ser", backLanguage: "German", deckId: 1
+
+frontText: "agua", frontPhonetic: "AH-gwah", frontLanguage: "Spanish", backText: "acqua", backPhonetic: "AH-kwah", backLanguage: "Italian", deckId: 1
+
+frontText: "agua", frontPhonetic: "AH-gwah", frontLanguage: "Spanish", backText: "eau", backPhonetic: "OH", backLanguage: "French", deckId: 1
+
+frontText: "agua", frontPhonetic: "AH-gwah", frontLanguage: "Spanish", backText: "Wasser", backPhonetic: "VAH-ser", backLanguage: "German", deckId: 1
+
+frontText: "acqua", frontPhonetic: "AH-kwah", frontLanguage: "Italian", backText: "agua", backPhonetic: "AH-gwah", backLanguage: "Spanish", deckId: 1
+
+frontText: "acqua", frontPhonetic: "AH-kwah", frontLanguage: "Italian", backText: "eau", backPhonetic: "OH", backLanguage: "French", deckId: 1
+
+frontText: "acqua", frontPhonetic: "AH-kwah", frontLanguage: "Italian", backText: "Wasser", backPhonetic: "VAH-ser", backLanguage: "German", deckId: 1
+
+frontText: "eau", frontPhonetic: "OH", frontLanguage: "French", backText: "agua", backPhonetic: "AH-gwah", backLanguage: "Spanish", deckId: 1
+
+frontText: "eau", frontPhonetic: "OH", frontLanguage: "French", backText: "acqua", backPhonetic: "AH-kwah", backLanguage: "Italian", deckId: 1
+
+frontText: "eau", frontPhonetic: "OH", frontLanguage: "French", backText: "Wasser", backPhonetic: "VAH-ser", backLanguage: "German", deckId: 1
+
+frontText: "agua", frontPhonetic: "AH-gwah", frontLanguage: "Spanish", backText: "water", backPhonetic: "WAW-ter", backLanguage: "English", deckId: 1
+
+frontText: "acqua", frontPhonetic: "AH-kwah", frontLanguage: "Italian", backText: "water", backPhonetic: "WAW-ter", backLanguage: "English", deckId: 1
+
+frontText: "eau", frontPhonetic: "OH", frontLanguage: "French", backText: "water", backPhonetic: "WAW-ter", backLanguage: "English", deckId: 1
+
+frontText: "Wasser", frontPhonetic: "VAH-ser", frontLanguage: "German", backText: "water", backPhonetic: "WAW-ter", backLanguage: "English", deckId: 1
+
+frontText: "Wasser", frontPhonetic: "VAH-ser", frontLanguage: "German", backText: "agua", backPhonetic: "AH-gwah", backLanguage: "Spanish", deckId: 1
+
+frontText: "Wasser", frontPhonetic: "VAH-ser", frontLanguage: "German", backText: "acqua", backPhonetic: "AH-kwah", backLanguage: "Italian", deckId: 1
+
+frontText: "Wasser", frontPhonetic: "VAH-ser", frontLanguage: "German", backText: "eau", backPhonetic: "OH", backLanguage: "French", deckId: 1
+
+
+///
+
+
+// CREATE DECK
+concept: "house"
+meaning: "a building for human habitation"
+
+// CREATE CARDS (assuming deckId: 2)
+frontText: "house", frontPhonetic: "HOWSS", frontLanguage: "English", backText: "casa", backPhonetic: "KAH-sah", backLanguage: "Spanish", deckId: 2
+
+frontText: "house", frontPhonetic: "HOWSS", frontLanguage: "English", backText: "casa", backPhonetic: "KAH-zah", backLanguage: "Italian", deckId: 2
+
+frontText: "house", frontPhonetic: "HOWSS", frontLanguage: "English", backText: "maison", backPhonetic: "may-ZOHN", backLanguage: "French", deckId: 2
+
+frontText: "house", frontPhonetic: "HOWSS", frontLanguage: "English", backText: "Haus", backPhonetic: "HOWSS", backLanguage: "German", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-sah", frontLanguage: "Spanish", backText: "casa", backPhonetic: "KAH-zah", backLanguage: "Italian", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-sah", frontLanguage: "Spanish", backText: "maison", backPhonetic: "may-ZOHN", backLanguage: "French", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-sah", frontLanguage: "Spanish", backText: "Haus", backPhonetic: "HOWSS", backLanguage: "German", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-zah", frontLanguage: "Italian", backText: "casa", backPhonetic: "KAH-sah", backLanguage: "Spanish", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-zah", frontLanguage: "Italian", backText: "maison", backPhonetic: "may-ZOHN", backLanguage: "French", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-zah", frontLanguage: "Italian", backText: "Haus", backPhonetic: "HOWSS", backLanguage: "German", deckId: 2
+
+frontText: "maison", frontPhonetic: "may-ZOHN", frontLanguage: "French", backText: "casa", backPhonetic: "KAH-sah", backLanguage: "Spanish", deckId: 2
+
+frontText: "maison", frontPhonetic: "may-ZOHN", frontLanguage: "French", backText: "casa", backPhonetic: "KAH-zah", backLanguage: "Italian", deckId: 2
+
+frontText: "maison", frontPhonetic: "may-ZOHN", frontLanguage: "French", backText: "Haus", backPhonetic: "HOWSS", backLanguage: "German", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-sah", frontLanguage: "Spanish", backText: "house", backPhonetic: "HOWSS", backLanguage: "English", deckId: 2
+
+frontText: "casa", frontPhonetic: "KAH-zah", frontLanguage: "Italian", backText: "house", backPhonetic: "HOWSS", backLanguage: "English", deckId: 2
+
+frontText: "maison", frontPhonetic: "may-ZOHN", frontLanguage: "French", backText: "house", backPhonetic: "HOWSS", backLanguage: "English", deckId: 2
+
+frontText: "Haus", frontPhonetic: "HOWSS", frontLanguage: "German", backText: "house", backPhonetic: "HOWSS", backLanguage: "English", deckId: 2
+
+frontText: "Haus", frontPhonetic: "HOWSS", frontLanguage: "German", backText: "casa", backPhonetic: "KAH-sah", backLanguage: "Spanish", deckId: 2
+
+frontText: "Haus", frontPhonetic: "HOWSS", frontLanguage: "German", backText: "casa", backPhonetic: "KAH-zah", backLanguage: "Italian", deckId: 2
+
+frontText: "Haus", frontPhonetic: "HOWSS", frontLanguage: "German", backText: "maison", backPhonetic: "may-ZOHN", backLanguage: "French", deckId: 2
+
+
+///
+
+
+// CREATE DECK
+concept: "love"
+meaning: "an intense feeling of deep affection"
+
+// CREATE CARDS (assuming deckId: 3)
+frontText: "love", frontPhonetic: "LUHV", frontLanguage: "English", backText: "amor", backPhonetic: "ah-MORE", backLanguage: "Spanish", deckId: 3
+
+frontText: "love", frontPhonetic: "LUHV", frontLanguage: "English", backText: "amore", backPhonetic: "ah-MORE-eh", backLanguage: "Italian", deckId: 3
+
+frontText: "love", frontPhonetic: "LUHV", frontLanguage: "English", backText: "amour", backPhonetic: "ah-MOOR", backLanguage: "French", deckId: 3
+
+frontText: "love", frontPhonetic: "LUHV", frontLanguage: "English", backText: "Liebe", backPhonetic: "LEE-beh", backLanguage: "German", deckId: 3
+
+frontText: "amor", frontPhonetic: "ah-MORE", frontLanguage: "Spanish", backText: "amore", backPhonetic: "ah-MORE-eh", backLanguage: "Italian", deckId: 3
+
+frontText: "amor", frontPhonetic: "ah-MORE", frontLanguage: "Spanish", backText: "amour", backPhonetic: "ah-MOOR", backLanguage: "French", deckId: 3
+
+frontText: "amor", frontPhonetic: "ah-MORE", frontLanguage: "Spanish", backText: "Liebe", backPhonetic: "LEE-beh", backLanguage: "German", deckId: 3
+
+frontText: "amore", frontPhonetic: "ah-MORE-eh", frontLanguage: "Italian", backText: "amor", backPhonetic: "ah-MORE", backLanguage: "Spanish", deckId: 3
+
+frontText: "amore", frontPhonetic: "ah-MORE-eh", frontLanguage: "Italian", backText: "amour", backPhonetic: "ah-MOOR", backLanguage: "French", deckId: 3
+
+frontText: "amore", frontPhonetic: "ah-MORE-eh", frontLanguage: "Italian", backText: "Liebe", backPhonetic: "LEE-beh", backLanguage: "German", deckId: 3
+
+frontText: "amour", frontPhonetic: "ah-MOOR", frontLanguage: "French", backText: "amor", backPhonetic: "ah-MORE", backLanguage: "Spanish", deckId: 3
+
+frontText: "amour", frontPhonetic: "ah-MOOR", frontLanguage: "French", backText: "amore", backPhonetic: "ah-MORE-eh", backLanguage: "Italian", deckId: 3
+
+frontText: "amour", frontPhonetic: "ah-MOOR", frontLanguage: "French", backText: "Liebe", backPhonetic: "LEE-beh", backLanguage: "German", deckId: 3
+
+frontText: "amor", frontPhonetic: "ah-MORE", frontLanguage: "Spanish", backText: "love", backPhonetic: "LUHV", backLanguage: "English", deckId: 3
+
+frontText: "amore", frontPhonetic: "ah-MORE-eh", frontLanguage: "Italian", backText: "love", backPhonetic: "LUHV", backLanguage: "English", deckId: 3
+
+frontText: "amour", frontPhonetic: "ah-MOOR", frontLanguage: "French", backText: "love", backPhonetic: "LUHV", backLanguage: "English", deckId: 3
+
+frontText: "Liebe", frontPhonetic: "LEE-beh", frontLanguage: "German", backText: "love", backPhonetic: "LUHV", backLanguage: "English", deckId: 3
+
+frontText: "Liebe", frontPhonetic: "LEE-beh", frontLanguage: "German", backText: "amor", backPhonetic: "ah-MORE", backLanguage: "Spanish", deckId: 3
+
+frontText: "Liebe", frontPhonetic: "LEE-beh", frontLanguage: "German", backText: "amore", backPhonetic: "ah-MORE-eh", backLanguage: "Italian", deckId: 3
+
+frontText: "Liebe", frontPhonetic: "LEE-beh", frontLanguage: "German", backText: "amour", backPhonetic: "ah-MOOR", backLanguage: "French", deckId: 3
+
+// CREATE DECK
+concept: "food"
+meaning: "any nutritious substance that people eat or drink"
+
+// CREATE CARDS (assuming deckId: 4)
+frontText: "food", frontPhonetic: "FOOD", frontLanguage: "English", backText: "comida", backPhonetic: "koh-MEE-dah", backLanguage: "Spanish", deckId: 4
+
+frontText: "food", frontPhonetic: "FOOD", frontLanguage: "English", backText: "cibo", backPhonetic: "CHEE-boh", backLanguage: "Italian", deckId: 4
+
+frontText: "food", frontPhonetic: "FOOD", frontLanguage: "English", backText: "nourriture", backPhonetic: "noor-ree-TOOR", backLanguage: "French", deckId: 4
+
+frontText: "food", frontPhonetic: "FOOD", frontLanguage: "English", backText: "Essen", backPhonetic: "EH-sen", backLanguage: "German", deckId: 4
+
+frontText: "comida", frontPhonetic: "koh-MEE-dah", frontLanguage: "Spanish", backText: "cibo", backPhonetic: "CHEE-boh", backLanguage: "Italian", deckId: 4
+
+frontText: "comida", frontPhonetic: "koh-MEE-dah", frontLanguage: "Spanish", backText: "nourriture", backPhonetic: "noor-ree-TOOR", backLanguage: "French", deckId: 4
+
+frontText: "comida", frontPhonetic: "koh-MEE-dah", frontLanguage: "Spanish", backText: "Essen", backPhonetic: "EH-sen", backLanguage: "German", deckId: 4
+
+frontText: "cibo", frontPhonetic: "CHEE-boh", frontLanguage: "Italian", backText: "comida", backPhonetic: "koh-MEE-dah", backLanguage: "Spanish", deckId: 4
+
+frontText: "cibo", frontPhonetic: "CHEE-boh", frontLanguage: "Italian", backText: "nourriture", backPhonetic: "noor-ree-TOOR", backLanguage: "French", deckId: 4
+
+frontText: "cibo", frontPhonetic: "CHEE-boh", frontLanguage: "Italian", backText: "Essen", backPhonetic: "EH-sen", backLanguage: "German", deckId: 4
+
+frontText: "nourriture", frontPhonetic: "noor-ree-TOOR", frontLanguage: "French", backText: "comida", backPhonetic: "koh-MEE-dah", backLanguage: "Spanish", deckId: 4
+
+frontText: "nourriture", frontPhonetic: "noor-ree-TOOR", frontLanguage: "French", backText: "cibo", backPhonetic: "CHEE-boh", backLanguage: "Italian", deckId: 4
+
+frontText: "nourriture", frontPhonetic: "noor-ree-TOOR", frontLanguage: "French", backText: "Essen", backPhonetic: "EH-sen", backLanguage: "German", deckId: 4
+
+frontText: "comida", frontPhonetic: "koh-MEE-dah", frontLanguage: "Spanish", backText: "food", backPhonetic: "FOOD", backLanguage: "English", deckId: 4
+
+frontText: "cibo", frontPhonetic: "CHEE-boh", frontLanguage: "Italian", backText: "food", backPhonetic: "FOOD", backLanguage: "English", deckId: 4
+
+frontText: "nourriture", frontPhonetic: "noor-ree-TOOR", frontLanguage: "French", backText: "food", backPhonetic: "FOOD", backLanguage: "English", deckId: 4
+
+frontText: "Essen", frontPhonetic: "EH-sen", frontLanguage: "German", backText: "food", backPhonetic: "FOOD", backLanguage: "English", deckId: 4
+
+frontText: "Essen", frontPhonetic: "EH-sen", frontLanguage: "German", backText: "comida", backPhonetic: "koh-MEE-dah", backLanguage: "Spanish", deckId: 4
+
+frontText: "Essen", frontPhonetic: "EH-sen", frontLanguage: "German", backText: "cibo", backPhonetic: "CHEE-boh", backLanguage: "Italian", deckId: 4
+
+frontText: "Essen", frontPhonetic: "EH-sen", frontLanguage: "German", backText: "nourriture", backPhonetic: "noor-ree-TOOR", backLanguage: "French", deckId: 4
+
+// CREATE DECK
+concept: "time"
+meaning: "the indefinite continued progress of existence"
+
+// CREATE CARDS (assuming deckId: 5)
+frontText: "time", frontPhonetic: "TIME", frontLanguage: "English", backText: "tiempo", backPhonetic: "tee-EHM-poh", backLanguage: "Spanish", deckId: 5
+
+frontText: "time", frontPhonetic: "TIME", frontLanguage: "English", backText: "tempo", backPhonetic: "TEHM-poh", backLanguage: "Italian", deckId: 5
+
+frontText: "time", frontPhonetic: "TIME", frontLanguage: "English", backText: "temps", backPhonetic: "TAHN", backLanguage: "French", deckId: 5
+
+frontText: "time", frontPhonetic: "TIME", frontLanguage: "English", backText: "Zeit", backPhonetic: "TSITE", backLanguage: "German", deckId: 5
+
+frontText: "tiempo", frontPhonetic: "tee-EHM-poh", frontLanguage: "Spanish", backText: "tempo", backPhonetic: "TEHM-poh", backLanguage: "Italian", deckId: 5
+
+frontText: "tiempo", frontPhonetic: "tee-EHM-poh", frontLanguage: "Spanish", backText: "temps", backPhonetic: "TAHN", backLanguage: "French", deckId: 5
+
+frontText: "tiempo", frontPhonetic: "tee-EHM-poh", frontLanguage: "Spanish", backText: "Zeit", backPhonetic: "TSITE", backLanguage: "German", deckId: 5
+
+frontText: "tempo", frontPhonetic: "TEHM-poh", frontLanguage: "Italian", backText: "tiempo", backPhonetic: "tee-EHM-poh", backLanguage: "Spanish", deckId: 5
+
+frontText: "tempo", frontPhonetic: "TEHM-poh", frontLanguage: "Italian", backText: "temps", backPhonetic: "TAHN", backLanguage: "French", deckId: 5
+
+frontText: "tempo", frontPhonetic: "TEHM-poh", frontLanguage: "Italian", backText: "Zeit", backPhonetic: "TSITE", backLanguage: "German", deckId: 5
+
+frontText: "temps", frontPhonetic: "TAHN", frontLanguage: "French", backText: "tiempo", backPhonetic: "tee-EHM-poh", backLanguage: "Spanish", deckId: 5
+
+frontText: "temps", frontPhonetic: "TAHN", frontLanguage: "French", backText: "tempo", backPhonetic: "TEHM-poh", backLanguage: "Italian", deckId: 5
+
+frontText: "temps", frontPhonetic: "TAHN", frontLanguage: "French", backText: "Zeit", backPhonetic: "TSITE", backLanguage: "German", deckId: 5
+
+frontText: "tiempo", frontPhonetic: "tee-EHM-poh", frontLanguage: "Spanish", backText: "time", backPhonetic: "TIME", backLanguage: "English", deckId: 5
+
+frontText: "tempo", frontPhonetic: "TEHM-poh", frontLanguage: "Italian", backText: "time", backPhonetic: "TIME", backLanguage: "English", deckId: 5
+
+frontText: "temps", frontPhonetic: "TAHN", frontLanguage: "French", backText: "time", backPhonetic: "TIME", backLanguage: "English", deckId: 5
+
+frontText: "Zeit", frontPhonetic: "TSITE", frontLanguage: "German", backText: "time", backPhonetic: "TIME", backLanguage: "English", deckId: 5
+
+frontText: "Zeit", frontPhonetic: "TSITE", frontLanguage: "German", backText: "tiempo", backPhonetic: "tee-EHM-poh", backLanguage: "Spanish", deckId: 5
+
+frontText: "Zeit", frontPhonetic: "TSITE", frontLanguage: "German", backText: "tempo", backPhonetic: "TEHM-poh", backLanguage: "Italian", deckId: 5
+
+frontText: "Zeit", frontPhonetic: "TSITE", frontLanguage: "German", backText: "temps", backPhonetic: "TAHN", backLanguage: "French", deckId: 5
+
+// CREATE DECK
+concept: "book"
+meaning: "a written or printed work consisting of pages"
+
+// CREATE CARDS (assuming deckId: 6)
+frontText: "book", frontPhonetic: "BOOK", frontLanguage: "English", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Spanish", deckId: 6
+
+frontText: "book", frontPhonetic: "BOOK", frontLanguage: "English", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Italian", deckId: 6
+
+frontText: "book", frontPhonetic: "BOOK", frontLanguage: "English", backText: "livre", backPhonetic: "LEE-vruh", backLanguage: "French", deckId: 6
+
+frontText: "book", frontPhonetic: "BOOK", frontLanguage: "English", backText: "Buch", backPhonetic: "BOOKH", backLanguage: "German", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Spanish", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Italian", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Spanish", backText: "livre", backPhonetic: "LEE-vruh", backLanguage: "French", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Spanish", backText: "Buch", backPhonetic: "BOOKH", backLanguage: "German", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Italian", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Spanish", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Italian", backText: "livre", backPhonetic: "LEE-vruh", backLanguage: "French", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Italian", backText: "Buch", backPhonetic: "BOOKH", backLanguage: "German", deckId: 6
+
+frontText: "livre", frontPhonetic: "LEE-vruh", frontLanguage: "French", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Spanish", deckId: 6
+
+frontText: "livre", frontPhonetic: "LEE-vruh", frontLanguage: "French", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Italian", deckId: 6
+
+frontText: "livre", frontPhonetic: "LEE-vruh", frontLanguage: "French", backText: "Buch", backPhonetic: "BOOKH", backLanguage: "German", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Spanish", backText: "book", backPhonetic: "BOOK", backLanguage: "English", deckId: 6
+
+frontText: "libro", frontPhonetic: "LEE-broh", frontLanguage: "Italian", backText: "book", backPhonetic: "BOOK", backLanguage: "English", deckId: 6
+
+frontText: "livre", frontPhonetic: "LEE-vruh", frontLanguage: "French", backText: "book", backPhonetic: "BOOK", backLanguage: "English", deckId: 6
+
+frontText: "Buch", frontPhonetic: "BOOKH", frontLanguage: "German", backText: "book", backPhonetic: "BOOK", backLanguage: "English", deckId: 6
+
+frontText: "Buch", frontPhonetic: "BOOKH", frontLanguage: "German", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Spanish", deckId: 6
+
+frontText: "Buch", frontPhonetic: "BOOKH", frontLanguage: "German", backText: "libro", backPhonetic: "LEE-broh", backLanguage: "Italian", deckId: 6
+
+frontText: "Buch", frontPhonetic: "BOOKH", frontLanguage: "German", backText: "livre", backPhonetic: "LEE-vruh", backLanguage: "French", deckId: 6
+
+// CREATE DECK
+concept: "friend"
+meaning: "a person whom one knows and with whom one has a bond of mutual affection"
+
+// CREATE CARDS (assuming deckId: 7)
+frontText: "friend", frontPhonetic: "FREND", frontLanguage: "English", backText: "amigo", backPhonetic: "ah-MEE-goh", backLanguage: "Spanish", deckId: 7
+
+frontText: "friend", frontPhonetic: "FREND", frontLanguage: "English", backText: "amico", backPhonetic: "ah-MEE-koh", backLanguage: "Italian", deckId: 7
+
+frontText: "friend", frontPhonetic: "FREND", frontLanguage: "English", backText: "ami", backPhonetic: "ah-MEE", backLanguage: "French", deckId: 7
+
+frontText: "friend", frontPhonetic: "FREND", frontLanguage: "English", backText: "Freund", backPhonetic: "FROYND", backLanguage: "German", deckId: 7
+
+frontText: "amigo", frontPhonetic: "ah-MEE-goh", frontLanguage: "Spanish", backText: "amico", backPhonetic: "ah-MEE-koh", backLanguage: "Italian", deckId: 7
+
+frontText: "amigo", frontPhonetic: "ah-MEE-goh", frontLanguage: "Spanish", backText: "ami", backPhonetic: "ah-MEE", backLanguage: "French", deckId: 7
+
+frontText: "amigo", frontPhonetic: "ah-MEE-goh", frontLanguage: "Spanish", backText: "Freund", backPhonetic: "FROYND", backLanguage: "German", deckId: 7
+
+frontText: "amico", frontPhonetic: "ah-MEE-koh", frontLanguage: "Italian", backText: "amigo", backPhonetic: "ah-MEE-goh", backLanguage: "Spanish", deckId: 7
+
+frontText: "amico", frontPhonetic: "ah-MEE-koh", frontLanguage: "Italian", backText: "ami", backPhonetic: "ah-MEE", backLanguage: "French", deckId: 7
+
+frontText: "amico", frontPhonetic: "ah-MEE-koh", frontLanguage: "Italian", backText: "Freund", backPhonetic: "FROYND", backLanguage: "German", deckId: 7
+
+frontText: "ami", frontPhonetic: "ah-MEE", frontLanguage: "French", backText: "amigo", backPhonetic: "ah-MEE-goh", backLanguage: "Spanish", deckId: 7
+
+frontText: "ami", frontPhonetic: "ah-MEE", frontLanguage: "French", backText: "amico", backPhonetic: "ah-MEE-koh", backLanguage: "Italian", deckId: 7
+
+frontText: "ami", frontPhonetic: "ah-MEE", frontLanguage: "French", backText: "Freund", backPhonetic: "FROYND", backLanguage: "German", deckId: 7
+
+frontText: "amigo", frontPhonetic: "ah-MEE-goh", frontLanguage: "Spanish", backText: "friend", backPhonetic: "FREND", backLanguage: "English", deckId: 7
+
+frontText: "amico", frontPhonetic: "ah-MEE-koh", frontLanguage: "Italian", backText: "friend", backPhonetic: "FREND", backLanguage: "English", deckId: 7
+
+frontText: "ami", frontPhonetic: "ah-MEE", frontLanguage: "French", backText: "friend", backPhonetic: "FREND", backLanguage: "English", deckId: 7
+
+frontText: "Freund", frontPhonetic: "FROYND", frontLanguage: "German", backText: "friend", backPhonetic: "FREND", backLanguage: "English", deckId: 7
+
+frontText: "Freund", frontPhonetic: "FROYND", frontLanguage: "German", backText: "amigo", backPhonetic: "ah-MEE-goh", backLanguage: "Spanish", deckId: 7
+
+frontText: "Freund", frontPhonetic: "FROYND", frontLanguage: "German", backText: "amico", backPhonetic: "ah-MEE-koh", backLanguage: "Italian", deckId: 7
+
+frontText: "Freund", frontPhonetic: "FROYND", frontLanguage: "German", backText: "ami", backPhonetic: "ah-MEE", backLanguage: "French", deckId: 7
+
+// CREATE DECK
+concept: "school"
+meaning: "an institution for educating children"
+
+// CREATE CARDS (assuming deckId: 8)
+frontText: "school", frontPhonetic: "SKOOL", frontLanguage: "English", backText: "escuela", backPhonetic: "es-KWAY-lah", backLanguage: "Spanish", deckId: 8
+
+frontText: "school", frontPhonetic: "SKOOL", frontLanguage: "English", backText: "scuola", backPhonetic: "SKWOH-lah", backLanguage: "Italian", deckId: 8
+
+frontText: "school", frontPhonetic: "SKOOL", frontLanguage: "English", backText: "école", backPhonetic: "ay-KOHL", backLanguage: "French", deckId: 8
+
+frontText: "school", frontPhonetic: "SKOOL", frontLanguage: "English", backText: "Schule", backPhonetic: "SHOO-leh", backLanguage: "German", deckId: 8
+
+frontText: "escuela", frontPhonetic: "es-KWAY-lah", frontLanguage: "Spanish", backText: "scuola", backPhonetic: "SKWOH-lah", backLanguage: "Italian", deckId: 8
+
+frontText: "escuela", frontPhonetic: "es-KWAY-lah", frontLanguage: "Spanish", backText: "école", backPhonetic: "ay-KOHL", backLanguage: "French", deckId: 8
+
+frontText: "escuela", frontPhonetic: "es-KWAY-lah", frontLanguage: "Spanish", backText: "Schule", backPhonetic: "SHOO-leh", backLanguage: "German", deckId: 8
+
+frontText: "scuola", frontPhonetic: "SKWOH-lah", frontLanguage: "Italian", backText: "escuela", backPhonetic: "es-KWAY-lah", backLanguage: "Spanish", deckId: 8
+
+frontText: "scuola", frontPhonetic: "SKWOH-lah", frontLanguage: "Italian", backText: "école", backPhonetic: "ay-KOHL", backLanguage: "French", deckId: 8
+
+frontText: "scuola", frontPhonetic: "SKWOH-lah", frontLanguage: "Italian", backText: "Schule", backPhonetic: "SHOO-leh", backLanguage: "German", deckId: 8
+
+frontText: "école", frontPhonetic: "ay-KOHL", frontLanguage: "French", backText: "escuela", backPhonetic: "es-KWAY-lah", backLanguage: "Spanish", deckId: 8
+
+frontText: "école", frontPhonetic: "ay-KOHL", frontLanguage: "French", backText: "scuola", backPhonetic: "SKWOH-lah", backLanguage: "Italian", deckId: 8
+
+frontText: "école", frontPhonetic: "ay-KOHL", frontLanguage: "French", backText: "Schule", backPhonetic: "SHOO-leh", backLanguage: "German", deckId: 8
+
+frontText: "escuela", frontPhonetic: "es-KWAY-lah", frontLanguage: "Spanish", backText: "school", backPhonetic: "SKOOL", backLanguage: "English", deckId: 8
+
+frontText: "scuola", frontPhonetic: "SKWOH-lah", frontLanguage: "Italian", backText: "school", backPhonetic: "SKOOL", backLanguage: "English", deckId: 8
+
+frontText: "école", frontPhonetic: "ay-KOHL", frontLanguage: "French", backText: "school", backPhonetic: "SKOOL", backLanguage: "English", deckId: 8
+
+frontText: "Schule", frontPhonetic: "SHOO-leh", frontLanguage: "German", backText: "school", backPhonetic: "SKOOL", backLanguage: "English", deckId: 8
+
+frontText: "Schule", frontPhonetic: "SHOO-leh", frontLanguage: "German", backText: "escuela", backPhonetic: "es-KWAY-lah", backLanguage: "Spanish", deckId: 8
+
+frontText: "Schule", frontPhonetic: "SHOO-leh", frontLanguage: "German", backText: "scuola", backPhonetic: "SKWOH-lah", backLanguage: "Italian", deckId: 8
+
+frontText: "Schule", frontPhonetic: "SHOO-leh", frontLanguage: "German", backText: "école", backPhonetic: "ay-KOHL", backLanguage: "French", deckId: 8
+
+// CREATE DECK
+concept: "family"
+meaning: "a group of one or more parents and their children living together"
+
+// CREATE CARDS (assuming deckId: 9)
+frontText: "family", frontPhonetic: "FAM-ih-lee", frontLanguage: "English", backText: "familia", backPhonetic: "fah-MEE-lee-ah", backLanguage: "Spanish", deckId: 9
+
+frontText: "family", frontPhonetic: "FAM-ih-lee", frontLanguage: "English", backText: "famiglia", backPhonetic: "fah-MEE-lyah", backLanguage: "Italian", deckId: 9
+
+frontText: "family", frontPhonetic: "FAM-ih-lee", frontLanguage: "English", backText: "famille", backPhonetic: "fah-MEEL", backLanguage: "French", deckId: 9
+
+frontText: "family", frontPhonetic: "FAM-ih-lee", frontLanguage: "English", backText: "Familie", backPhonetic: "fah-MEE-lee-eh", backLanguage: "German", deckId: 9
+
+frontText: "familia", frontPhonetic: "fah-MEE-lee-ah", frontLanguage: "Spanish", backText: "famiglia", backPhonetic: "fah-MEE-lyah", backLanguage: "Italian", deckId: 9
+
+frontText: "familia", frontPhonetic: "fah-MEE-lee-ah", frontLanguage: "Spanish", backText: "famille", backPhonetic: "fah-MEEL", backLanguage: "French", deckId: 9
+
+frontText: "familia", frontPhonetic: "fah-MEE-lee-ah", frontLanguage: "Spanish", backText: "Familie", backPhonetic: "fah-MEE-lee-eh", backLanguage: "German", deckId: 9
+
+frontText: "famiglia", frontPhonetic: "fah-MEE-lyah", frontLanguage: "Italian", backText: "familia", backPhonetic: "fah-MEE-lee-ah", backLanguage: "Spanish", deckId: 9
+
+frontText: "famiglia", frontPhonetic: "fah-MEE-lyah", frontLanguage: "Italian", backText: "famille", backPhonetic: "fah-MEEL", backLanguage: "French", deckId: 9
+
+frontText: "famiglia", frontPhonetic: "fah-MEE-lyah", frontLanguage: "Italian", backText: "Familie", backPhonetic: "fah-MEE-lee-eh", backLanguage: "German", deckId: 9
+
+frontText: "famille", frontPhonetic: "fah-MEEL", frontLanguage: "French", backText: "familia", backPhonetic: "fah-MEE-lee-ah", backLanguage: "Spanish", deckId: 9
+
+frontText: "famille", frontPhonetic: "fah-MEEL", frontLanguage: "French", backText: "famiglia", backPhonetic: "fah-MEE-lyah", backLanguage: "Italian", deckId: 9
+
+frontText: "famille", frontPhonetic: "fah-MEEL", frontLanguage: "French", backText: "Familie", backPhonetic: "fah-MEE-lee-eh", backLanguage: "German", deckId: 9
+
+frontText: "familia", frontPhonetic: "fah-MEE-lee-ah", frontLanguage: "Spanish", backText: "family", backPhonetic: "FAM-ih-lee", backLanguage: "English", deckId: 9
+
+frontText: "famiglia", frontPhonetic: "fah-MEE-lyah", frontLanguage: "Italian", backText: "family", backPhonetic: "FAM-ih-lee", backLanguage: "English", deckId: 9
+
+frontText: "famille", frontPhonetic: "fah-MEEL", frontLanguage: "French", backText: "family", backPhonetic: "FAM-ih-lee", backLanguage: "English", deckId: 9
+
+frontText: "Familie", frontPhonetic: "fah-MEE-lee-eh", frontLanguage: "German", backText: "family", backPhonetic: "FAM-ih-lee", backLanguage: "English", deckId: 9
+
+frontText: "Familie", frontPhonetic: "fah-MEE-lee-eh", frontLanguage: "German", backText: "familia", backPhonetic: "fah-MEE-lee-ah", backLanguage: "Spanish", deckId: 9
+
+frontText: "Familie", frontPhonetic: "fah-MEE-lee-eh", frontLanguage: "German", backText: "famiglia", backPhonetic: "fah-MEE-lyah", backLanguage: "Italian", deckId: 9
+
+frontText: "Familie", frontPhonetic: "fah-MEE-lee-eh", frontLanguage: "German", backText: "famille", backPhonetic: "fah-MEEL", backLanguage: "French", deckId: 9
+
+// CREATE DECK
+concept: "hello"
+meaning: "used as a greeting or to begin a phone conversation"
+
+// CREATE CARDS (assuming deckId: 10)
+frontText: "hello", frontPhonetic: "heh-LOH", frontLanguage: "English", backText: "hola", backPhonetic: "OH-lah", backLanguage: "Spanish", deckId: 10
+
+frontText: "hello", frontPhonetic: "heh-LOH", frontLanguage: "English", backText: "ciao", backPhonetic: "CHOW", backLanguage: "Italian", deckId: 10
+
+frontText: "hello", frontPhonetic: "heh-LOH", frontLanguage: "English", backText: "bonjour", backPhonetic: "bohn-ZHOOR", backLanguage: "French", deckId: 10
+
+frontText: "hello", frontPhonetic: "heh-LOH", frontLanguage: "English", backText: "hallo", backPhonetic: "HAH-loh", backLanguage: "German", deckId: 10
+
+frontText: "hola", frontPhonetic: "OH-lah", frontLanguage: "Spanish", backText: "ciao", backPhonetic: "CHOW", backLanguage: "Italian", deckId: 10
+
+frontText: "hola", frontPhonetic: "OH-lah", frontLanguage: "Spanish", backText: "bonjour", backPhonetic: "bohn-ZHOOR", backLanguage: "French", deckId: 10
+
+frontText: "hola", frontPhonetic: "OH-lah", frontLanguage: "Spanish", backText: "hallo", backPhonetic: "HAH-loh", backLanguage: "German", deckId: 10
+
+frontText: "ciao", frontPhonetic: "CHOW", frontLanguage: "Italian", backText: "hola", backPhonetic: "OH-lah", backLanguage: "Spanish", deckId: 10
+
+frontText: "ciao", frontPhonetic: "CHOW", frontLanguage: "Italian", backText: "bonjour", backPhonetic: "bohn-ZHOOR", backLanguage: "French", deckId: 10
+
+frontText: "ciao", frontPhonetic: "CHOW", frontLanguage: "Italian", backText: "hallo", backPhonetic: "HAH-loh", backLanguage: "German", deckId: 10
+
+frontText: "bonjour", frontPhonetic: "bohn-ZHOOR", frontLanguage: "French", backText: "hola", backPhonetic: "OH-lah", backLanguage: "Spanish", deckId: 10
+
+frontText: "bonjour", frontPhonetic: "bohn-ZHOOR", frontLanguage: "French", backText: "ciao", backPhonetic: "CHOW", backLanguage: "Italian", deckId: 10
+
+frontText: "bonjour", frontPhonetic: "bohn-ZHOOR", frontLanguage: "French", backText: "hallo", backPhonetic: "HAH-loh", backLanguage: "German", deckId: 10
+
+frontText: "hola", frontPhonetic: "OH-lah", frontLanguage: "Spanish", backText: "hello", backPhonetic: "heh-LOH", backLanguage: "English", deckId: 10
+
+frontText: "ciao", frontPhonetic: "CHOW", frontLanguage: "Italian", backText: "hello", backPhonetic: "heh-LOH", backLanguage: "English", deckId: 10
+
+frontText: "bonjour", frontPhonetic: "bohn-ZHOOR", frontLanguage: "French", backText: "hello", backPhonetic: "heh-LOH", backLanguage: "English", deckId: 10
+
+frontText: "hallo", frontPhonetic: "HAH-loh", frontLanguage: "German", backText: "hello", backPhonetic: "heh-LOH", backLanguage: "English", deckId: 10
+
+frontText: "hallo", frontPhonetic: "HAH-loh", frontLanguage: "German", backText: "hola", backPhonetic: "OH-lah", backLanguage: "Spanish", deckId: 10
+
+frontText: "hallo", frontPhonetic: "HAH-loh", frontLanguage: "German", backText: "ciao", backPhonetic: "CHOW", backLanguage: "Italian", deckId: 10
+
+frontText: "hallo", frontPhonetic: "HAH-loh", frontLanguage: "German", backText: "bonjour", backPhonetic: "bohn-ZHOOR", backLanguage: "French", deckId: 10
+
+
