@@ -57,20 +57,21 @@ interface GreetingPosition {
 
 // Function to generate random positions that avoid the center card area and overlaps
 const generateRandomPosition = (existingPositions: { x: string; y: string }[] = []) => {
-  const cardWidth = 240; // minWidth from CSS
-  const cardHeight = 120; // minHeight from CSS
-  const screenPadding = 50; // Padding from screen edges
+  // Account for greeting box size and add padding
+  const cardWidthPercent = 15; // ~240px as percentage of typical screen
+  const cardHeightPercent = 12; // ~120px as percentage of typical screen
+  const edgePadding = 8; // Padding from screen edges
   
-  // Define safe zones avoiding the center (roughly 30-70% both x and y)
+  // Define safe zones avoiding the center (roughly 30-70% both x and y) with proper padding
   const availableZones = [
     // Top strip
-    { minX: 5, maxX: 95, minY: 5, maxY: 25 },
+    { minX: edgePadding, maxX: 100 - edgePadding - cardWidthPercent, minY: edgePadding, maxY: 25 },
     // Bottom strip  
-    { minX: 5, maxX: 95, minY: 75, maxY: 90 },
+    { minX: edgePadding, maxX: 100 - edgePadding - cardWidthPercent, minY: 75, maxY: 88 - cardHeightPercent },
     // Left strip (avoiding center)
-    { minX: 5, maxX: 25, minY: 25, maxY: 75 },
+    { minX: edgePadding, maxX: 25, minY: 30, maxY: 70 - cardHeightPercent },
     // Right strip (avoiding center)
-    { minX: 75, maxX: 90, minY: 25, maxY: 75 },
+    { minX: 75, maxX: 88 - cardWidthPercent, minY: 30, maxY: 70 - cardHeightPercent },
   ];
 
   const maxAttempts = 50;
@@ -97,9 +98,9 @@ const generateRandomPosition = (existingPositions: { x: string; y: string }[] = 
       const distanceX = Math.abs(x - existingX);
       const distanceY = Math.abs(y - existingY);
       
-      // Minimum distance to prevent overlap (accounting for card size)
-      const minDistanceX = 25; // Roughly 25% of screen width
-      const minDistanceY = 20; // Roughly 20% of screen height
+      // Minimum distance to prevent overlap (accounting for card size + padding)
+      const minDistanceX = cardWidthPercent + 5; // Card width + 5% spacing
+      const minDistanceY = cardHeightPercent + 3; // Card height + 3% spacing
       
       return distanceX < minDistanceX && distanceY < minDistanceY;
     });
@@ -111,10 +112,10 @@ const generateRandomPosition = (existingPositions: { x: string; y: string }[] = 
   
   // Fallback to predefined safe positions if no random position found
   const fallbackPositions = [
-    { x: '8%', y: '15%' },   // Top-left
-    { x: '80%', y: '15%' },  // Top-right  
-    { x: '8%', y: '80%' },   // Bottom-left
-    { x: '80%', y: '80%' },  // Bottom-right
+    { x: '8%', y: '8%' },    // Top-left
+    { x: '77%', y: '8%' },   // Top-right  
+    { x: '8%', y: '76%' },   // Bottom-left
+    { x: '77%', y: '76%' },  // Bottom-right
   ];
   
   // Find first fallback that doesn't overlap
@@ -128,7 +129,7 @@ const generateRandomPosition = (existingPositions: { x: string; y: string }[] = 
       const distanceX = Math.abs(fallbackX - existingX);
       const distanceY = Math.abs(fallbackY - existingY);
       
-      return distanceX < 25 && distanceY < 20;
+      return distanceX < cardWidthPercent + 5 && distanceY < cardHeightPercent + 3;
     });
     
     if (!hasOverlap) {
@@ -163,6 +164,15 @@ const CityGreetings: React.FC = () => {
     
     return initialPositions;
   });
+
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleCardClick = () => {
+    // Start flip animation
+    setIsFlipped(true);
+    
+    window.location.href = '/onboarding';
+  };
 
   // Set up staggered timers for each position
   useEffect(() => {
@@ -255,29 +265,46 @@ const CityGreetings: React.FC = () => {
       <div className="hidden md:block absolute inset-0 z-15 backdrop-blur-xs pointer-events-none" />
       
       {/* Central Flash Card */}
-      <div className="hidden md:flex absolute inset-0 z-20 items-center justify-center pointer-events-none">
-        <button 
-          className="bg-white rounded-2xl shadow-4xl p-12 max-w-xl w-full mx-4 border-2 border-black pointer-events-auto transition-all duration-300 transform hover:scale-105 hover:shadow-3xl cursor-pointer"
-          onClick={() => {
-            window.location.href = '/onboarding';
-          }}
-        >
-          <div className="text-center">
-            <div className="mb-6">
-              <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
-                English
-              </span>
+      <div className="hidden md:flex absolute inset-0 z-30 items-center justify-center pointer-events-none">
+        <div className="flip-card-container">
+          <button 
+            className={`flip-card ${isFlipped ? 'flipped' : ''} bg-white rounded-2xl shadow-4xl p-12 max-w-xl w-full mx-4 border-2 border-black pointer-events-auto transition-all duration-300 transform hover:scale-105 hover:shadow-3xl cursor-pointer`}
+            onClick={handleCardClick}
+          >
+            {/* Front of card */}
+            <div className={`flip-card-front ${isFlipped ? 'hidden' : 'block'}`}>
+              <div className="text-center">
+                <div className="mb-6">
+                  <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                    English
+                  </span>
+                </div>
+                <div className="mb-4">
+                  <h2 className="text-6xl font-bold text-gray-900 mb-3">
+                    POLYGLOT
+                  </h2>
+                  <p className="text-xl text-gray-600 font-mono mb-1">
+                    /'PAH-lee-glot'/
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="mb-4">
-              <h2 className="text-6xl font-bold text-gray-900 mb-3">
-                POLYGLOT
-              </h2>
-              <p className="text-xl text-gray-600 font-mono mb-1">
-                /'PAH-lee-glot'/
-              </p>
+            
+            {/* Back of card */}
+            <div className={`flip-card-back ${isFlipped ? 'block' : 'hidden'}`}>
+              <div className="text-center">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    Do you have what it takes to become a polyglot?
+                  </h2>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Polyglot is a language learning platform using multi-language context and spaced repetition
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        </button>
+          </button>
+        </div>
       </div>
       
       <div className="hidden md:block absolute inset-0 z-20 pointer-events-none">
@@ -337,10 +364,78 @@ const CityGreetings: React.FC = () => {
               transform: translateY(-8px);
             }
           }
+          
+          .flip-card-container {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+          }
+          
+          .flip-card {
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+            transform-style: preserve-3d;
+            position: relative;
+            transform-origin: center center;
+          }
+          
+          .flip-card.flipped {
+            transform: rotateY(180deg) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: flipGlow 0.8s ease-out;
+          }
+          
+          .flip-card-front,
+          .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            top: 0;
+            left: 0;
+            border-radius: 1rem;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+          }
+          
+          .flip-card-front {
+            z-index: 2;
+            transform: rotateY(0deg);
+          }
+          
+          .flip-card-back {
+            z-index: 1;
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #1e293b;
+          }
+          
+          .flip-card:not(.flipped) .flip-card-front {
+            opacity: 1;
+            transform: rotateY(0deg) translateZ(1px);
+          }
+          
+          .flip-card:not(.flipped) .flip-card-back {
+            opacity: 0;
+            transform: rotateY(180deg) translateZ(-1px);
+          }
+          
+          .flip-card.flipped .flip-card-front {
+            opacity: 0;
+            transform: rotateY(-180deg) translateZ(-1px);
+          }
+          
+          .flip-card.flipped .flip-card-back {
+            opacity: 1;
+            transform: rotateY(0deg) translateZ(1px);
+          }
+          
+          @keyframes flipGlow {
+            0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 30px 60px rgba(59, 130, 246, 0.3); }
+            100% { box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); }
+          }
         `}</style>
       </div>
     </>
   );
 };
-
-export default CityGreetings; 
+export default CityGreetings;

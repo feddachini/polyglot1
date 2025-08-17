@@ -50,7 +50,7 @@ type OnboardingStep = "welcome" | "connect" | "languages" | "decks" | "summary";
 export default function OnboardingFlow() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("welcome");
-  const { primaryWallet } = useDynamicContext();
+  const { primaryWallet, setShowAuthFlow } = useDynamicContext();
   const isAuthenticated = !!primaryWallet;
   const { setupProfile, loading, error } = useLeitnerLang();
 
@@ -60,12 +60,11 @@ export default function OnboardingFlow() {
   const [userProfile, setUserProfile] = useState<WalletProfile | null>(null);
 
   React.useEffect(() => {
-    if (isAuthenticated && primaryWallet && currentStep === 'connect') {
-      setTimeout(() => {
-        setCurrentStep('languages');
-      }, 1500);
+    if (isAuthenticated && primaryWallet) {
+      // If user is authenticated, redirect to dashboard
+      router.push('/dashboard');
     }
-  }, [isAuthenticated, primaryWallet, currentStep]);
+  }, [isAuthenticated, primaryWallet, router]);
 
   const languages: Language[] = [
     {
@@ -221,7 +220,7 @@ export default function OnboardingFlow() {
             </div>
 
             <button
-              onClick={() => setCurrentStep("connect")}
+              onClick={() => setShowAuthFlow(true)}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 transition-colors shadow-sm"
             >
               Get Started

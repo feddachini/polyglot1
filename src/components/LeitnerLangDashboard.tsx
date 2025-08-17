@@ -394,14 +394,14 @@ export default function LeitnerLangDashboard() {
                   <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
                     <Wallet className="w-4 h-4 text-blue-600" />
                   </div>
-                  <div>
+              <div>
                     <div className="text-sm font-medium text-gray-900">Wallet Address</div>
                     <div className="text-xs text-gray-500">Your Flow blockchain address</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
                   <code className="font-mono text-sm text-gray-800 flex-1 truncate">
-                    {userAddress}
+                  {userAddress}
                   </code>
                   <button
                     onClick={() => navigator.clipboard.writeText(userAddress)}
@@ -418,8 +418,8 @@ export default function LeitnerLangDashboard() {
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                     <Network className="w-4 h-4 text-green-600" />
-                  </div>
-                  <div>
+              </div>
+              <div>
                     <div className="text-sm font-medium text-gray-900">Network</div>
                     <div className="text-xs text-gray-500">Blockchain network</div>
                   </div>
@@ -435,8 +435,8 @@ export default function LeitnerLangDashboard() {
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
                     <Settings className="w-4 h-4 text-purple-600" />
-                  </div>
-                  <div>
+              </div>
+              <div>
                     <div className="text-sm font-medium text-gray-900">Contract Address</div>
                     <div className="text-xs text-gray-500">LeitnerLang smart contract</div>
                   </div>
@@ -460,8 +460,8 @@ export default function LeitnerLangDashboard() {
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
                     <ExternalLink className="w-4 h-4 text-orange-600" />
-                  </div>
-                  <div>
+              </div>
+              <div>
                     <div className="text-sm font-medium text-gray-900">COA Address</div>
                     <div className="text-xs text-gray-500">Cadence Owned Account</div>
                   </div>
@@ -773,19 +773,19 @@ export default function LeitnerLangDashboard() {
               <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
                 <h4 className="font-semibold text-gray-900 mb-3">Quick Actions</h4>
                 <div className="space-y-3">
-                  <button
+            <button
                     onClick={() => router.push('/learn')}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-                  >
+            >
                     Start Learning
-                  </button>
-                  <button
+            </button>
+            <button
                     onClick={() => setShowDeckBrowser(true)}
                     className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-                  >
+            >
                     Add More Cards
-                  </button>
-                </div>
+            </button>
+          </div>
               </div>
             </div>
           </div>
