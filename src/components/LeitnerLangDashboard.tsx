@@ -404,7 +404,7 @@ export default function LeitnerLangDashboard() {
                   {userAddress}
                   </code>
                   <button
-                    onClick={() => navigator.clipboard.writeText(userAddress)}
+                    onClick={() => userAddress && navigator.clipboard.writeText(userAddress)}
                     className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
                     title="Copy address"
                   >
@@ -446,7 +446,7 @@ export default function LeitnerLangDashboard() {
                     {contractAddress}
                   </code>
                   <button
-                    onClick={() => navigator.clipboard.writeText(contractAddress)}
+                    onClick={() => contractAddress && navigator.clipboard.writeText(contractAddress)}
                     className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
                     title="Copy contract address"
                   >
