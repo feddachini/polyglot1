@@ -124,7 +124,7 @@ export default function LeitnerLang() {
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="text-center mb-8 pt-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">LeitnerLang</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Polyglot</h1>
           <p className="text-gray-600">Learn multiple languages, one concept at a time</p>
         </div>
 

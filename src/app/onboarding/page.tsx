@@ -174,7 +174,7 @@ export default function OnboardingFlow() {
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20">
               <Globe className="w-10 h-10" />
             </div>
-            <h1 className="text-4xl font-bold mb-4">LeitnerLang</h1>
+            <h1 className="text-4xl font-bold mb-4">Polyglot</h1>
             <p className="text-xl opacity-90 mb-2">Master Multiple Languages</p>
             <p className="text-lg opacity-75">
               With blockchain-powered learning

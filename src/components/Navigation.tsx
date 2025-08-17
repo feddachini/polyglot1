@@ -59,7 +59,7 @@ export default function Navigation() {
           {/* Brand */}
           <div className="flex items-center space-x-2">
             <BookOpen className="w-6 h-6 text-blue-600" />
-            <span className="font-bold text-xl text-gray-900">LeitnerLang</span>
+            <span className="font-bold text-xl text-gray-900">Polyglot</span>
           </div>
 
           {/* Navigation Items */}
