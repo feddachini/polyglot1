@@ -65,7 +65,7 @@ export default function RootLayout({
           }}
         >
           <div className="min-h-screen flex flex-col">
-            <main className="flex-1">
+            <main className="flex-1 pb-20 md:pb-16">
               {children}
             </main>
             <Navigation />

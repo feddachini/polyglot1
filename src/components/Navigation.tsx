@@ -52,9 +52,10 @@ export default function Navigation() {
   }
 
   return (
-    <div className="bg-white border-t border-gray-200 shadow-sm">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center justify-between h-16">
           {/* Brand */}
           <div className="flex items-center space-x-2">
             <BookOpen className="w-6 h-6 text-blue-600" />
@@ -62,7 +63,7 @@ export default function Navigation() {
           </div>
 
           {/* Navigation Items */}
-          <nav className="hidden md:flex space-x-4">
+          <nav className="flex space-x-4">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               const canAccess = !item.requiresAuth || isAuthenticated;
@@ -120,8 +121,8 @@ export default function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden border-t border-gray-200">
-          <div className="flex justify-around py-2">
+        <div className="md:hidden">
+          <div className="flex justify-around py-3">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               const canAccess = !item.requiresAuth || isAuthenticated;
@@ -132,10 +133,10 @@ export default function Navigation() {
                 <button
                   key={item.path}
                   onClick={() => handleNavigation(item.path)}
-                  className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors ${
+                  className={`flex flex-col items-center py-2 px-3 text-xs font-medium transition-colors rounded-lg ${
                     isActive
-                      ? 'text-blue-600'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                   }`}
                 >
                   <item.icon className="w-5 h-5 mb-1" />
@@ -143,6 +144,25 @@ export default function Navigation() {
                 </button>
               );
             })}
+            
+            {/* Mobile Auth Button */}
+            {isAuthenticated ? (
+              <button
+                onClick={handleDisconnect}
+                className="flex flex-col items-center py-2 px-3 text-xs font-medium text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors rounded-lg"
+              >
+                <LogOut className="w-5 h-5 mb-1" />
+                <span>Logout</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleConnect}
+                className="flex flex-col items-center py-2 px-3 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors rounded-lg"
+              >
+                <Wallet className="w-5 h-5 mb-1" />
+                <span>Connect</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

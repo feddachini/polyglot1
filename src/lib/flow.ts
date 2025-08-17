@@ -300,13 +300,98 @@ transaction(
 };
 
 // Helper functions
+// Helper function to normalize Flow addresses
+function normalizeFlowAddress(address: string): string {
+  if (!address) return address;
+  
+  // Remove any whitespace
+  const cleaned = address.trim();
+  console.log('Normalizing address:', cleaned, 'length:', cleaned.length);
+  
+  // If it already has 0x and is 18 chars, return as-is
+  if (cleaned.startsWith('0x') && cleaned.length === 18) {
+    return cleaned;
+  }
+  
+  // If it's 16 hex chars without 0x, add 0x
+  if (!cleaned.startsWith('0x') && cleaned.length === 16 && /^[a-fA-F0-9]{16}$/.test(cleaned)) {
+    return `0x${cleaned}`;
+  }
+  
+  // If it's longer, check if it's an EVM address and needs special handling
+  if (cleaned.length === 42 && cleaned.startsWith('0x')) {
+    // This is likely an EVM address, but we need to check if this is actually Flow-derived
+    // For now, let's try to map it or use it as-is and let the user/system handle the mismatch
+    console.warn('EVM address detected - this may not correspond to Flow address:', cleaned);
+    
+    // Try to extract last 16 hex chars as fallback
+    const hexMatch = cleaned.match(/([a-fA-F0-9]{16})$/);
+    if (hexMatch) {
+      const flowAddress = `0x${hexMatch[1]}`;
+      console.log('Extracted Flow address from EVM address:', flowAddress);
+      return flowAddress;
+    }
+  }
+  
+  // If nothing works, return as-is and let FCL handle the error
+  console.warn('Could not normalize address:', cleaned);
+  return cleaned;
+}
+
 export const flowService = {
+  // Expose the address normalization function
+  normalizeAddress: normalizeFlowAddress,
+  
+  // Get the actual FCL user address (the one signing transactions)
+  async getCurrentUserAddress(): Promise<string | null> {
+    try {
+      const user = await fcl.currentUser.snapshot();
+      if (user?.addr) {
+        console.log('FCL current user address:', user.addr);
+        return user.addr;
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to get FCL user address:', error);
+      return null;
+    }
+  },
+  
   // Execute a script (read-only)
   async executeScript(script: string, args: any[] = []) {
     try {
+      console.log('Executing script with args:', args);
       return await fcl.query({
         cadence: script,
-        args: (arg: any, t: any) => args.map(a => arg(a, t.String)) // Adjust types as needed
+        args: (arg: any, t: any) => args.map((a, index) => {
+          console.log(`Processing arg[${index}]:`, a, 'type:', typeof a, 'length:', a?.length);
+          
+          // Handle different argument types
+          if (typeof a === 'string') {
+            // Check if this might be an address by checking for hex patterns
+            const cleaned = a.trim();
+            const isLikelyAddress = /[a-fA-F0-9]{16,}/.test(cleaned) && index === 0; // First arg is usually address
+            
+            if (isLikelyAddress) {
+              const address = normalizeFlowAddress(cleaned);
+              console.log('Treating as Flow address:', address);
+              return arg(address, t.Address);
+            } else {
+              // Regular string parameter
+              console.log('Treating as string:', cleaned);
+              return arg(cleaned, t.String);
+            }
+          } else if (typeof a === 'number') {
+            console.log('Treating as UInt64:', a);
+            return arg(a, t.UInt64);
+          } else if (typeof a === 'boolean') {
+            console.log('Treating as Bool:', a);
+            return arg(a, t.Bool);
+          } else {
+            console.log('Treating as string fallback:', a);
+            return arg(String(a), t.String);
+          }
+        })
       });
     } catch (error) {
       console.error("Script execution failed:", error);
@@ -319,7 +404,38 @@ export const flowService = {
     try {
       const txId = await fcl.mutate({
         cadence: transaction,
-        args: (arg: any, t: any) => args.map(a => arg(a, t.String)), // Adjust types as needed
+        args: (arg: any, t: any) => args.map((a, index) => {
+          console.log(`Processing transaction arg[${index}]:`, a, 'type:', typeof a, 'length:', a?.length);
+          
+          // Handle different argument types
+          if (a === null || a === undefined) {
+            console.log('Treating as optional null:', a);
+            return arg(null, t.Optional(t.String));
+          } else if (typeof a === 'string') {
+            // Check if this might be an address by checking for hex patterns
+            const cleaned = a.trim();
+            const isLikelyAddress = /[a-fA-F0-9]{16,}/.test(cleaned) && (index === 0 || cleaned.length >= 16);
+            
+            if (isLikelyAddress) {
+              const address = normalizeFlowAddress(cleaned);
+              console.log('Treating transaction arg as Flow address:', address);
+              return arg(address, t.Address);
+            } else {
+              // Regular string parameter
+              console.log('Treating transaction arg as string:', cleaned);
+              return arg(cleaned, t.String);
+            }
+          } else if (typeof a === 'number') {
+            console.log('Treating transaction arg as UInt64:', a);
+            return arg(a, t.UInt64);
+          } else if (typeof a === 'boolean') {
+            console.log('Treating transaction arg as Bool:', a);
+            return arg(a, t.Bool);
+          } else {
+            console.log('Treating transaction arg as string fallback:', a);
+            return arg(String(a), t.String);
+          }
+        }),
         proposer: fcl.currentUser,
         payer: fcl.currentUser,
         authorizations: [fcl.currentUser],

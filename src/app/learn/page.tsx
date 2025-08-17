@@ -145,7 +145,7 @@ export default function LearnPage() {
 
   if (!primaryWallet) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="flex items-center justify-center p-4 min-h-[calc(100vh-5rem)]">
         <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center max-w-md w-full">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Connect Your Wallet</h2>
           <p className="text-gray-600 mb-6">Please connect your wallet to start learning</p>
@@ -162,7 +162,7 @@ export default function LearnPage() {
 
   if (!currentCard) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="flex items-center justify-center p-4 min-h-[calc(100vh-5rem)]">
         <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center max-w-md w-full">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">No Cards Available</h2>
           <p className="text-gray-600 mb-6">Please create some decks and cards to start learning</p>
@@ -178,7 +178,7 @@ export default function LearnPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-4">
@@ -286,7 +286,7 @@ export default function LearnPage() {
 
         {/* Action Buttons */}
         {showAnswer ? (
-          <div className="flex gap-4">
+          <div className="flex gap-4 mb-8">
             <button
               onClick={() => handleAnswer(false)}
               className="flex-1 bg-red-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2 shadow-sm"
@@ -303,13 +303,13 @@ export default function LearnPage() {
             </button>
           </div>
         ) : (
-          <div className="text-center">
+          <div className="text-center mb-8">
             <p className="text-gray-600 mb-4">Try to remember the translation, then reveal the answer</p>
           </div>
         )}
 
         {/* Session Stats */}
-        <div className="mt-8 grid grid-cols-3 gap-4 text-center">
+        <div className="grid grid-cols-3 gap-4 text-center">
           <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
             <div className="text-2xl font-bold text-green-600">{sessionStats.correct}</div>
             <div className="text-sm text-gray-600">Correct</div>

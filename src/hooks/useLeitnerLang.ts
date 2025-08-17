@@ -46,18 +46,30 @@ export const useLeitnerLang = () => {
       console.log('Setting up profile with language:', primaryLanguage);
       
       // First check if profile already exists
+      console.log('Primary wallet address:', primaryWallet.address, 'length:', primaryWallet.address?.length);
+      
+      // Get the actual FCL user address (the one signing transactions)
+      const fclUserAddress = await flowService.getCurrentUserAddress();
+      console.log('FCL user address:', fclUserAddress);
+      
+      // Use FCL address if available, otherwise fall back to normalized Dynamic address
+      const flowAddress = fclUserAddress || flowService.normalizeAddress(primaryWallet.address);
+      console.log('Using Flow address for profile operations:', flowAddress);
+      
       const existingProfile = await flowService.executeScript(
         SCRIPTS.GET_PROFILE,
-        [primaryWallet.address]
+        [flowAddress]
       );
       
       if (existingProfile) {
         console.log('Profile already exists:', existingProfile);
-        // Convert contract profile to local format
+        // Convert contract profile to clean Profile format
         const profile: Profile = {
           primaryLanguage: existingProfile.primaryLanguage || primaryLanguage,
-          owner: primaryWallet.address,
-          createdAt: existingProfile.createdAt ? new Date(existingProfile.createdAt * 1000).toISOString() : new Date().toISOString()
+          owner: flowAddress,
+          createdAt: existingProfile.createdAt ? 
+            new Date(parseFloat(existingProfile.createdAt) * 1000).toISOString() : 
+            new Date().toISOString()
         };
         setProfile(profile);
         return; // Don't try to create a new one
@@ -74,7 +86,7 @@ export const useLeitnerLang = () => {
       // Create local profile object
       const newProfile: Profile = {
         primaryLanguage,
-        owner: primaryWallet.address,
+        owner: flowAddress,
         createdAt: new Date().toISOString()
       };
       setProfile(newProfile);
@@ -86,16 +98,23 @@ export const useLeitnerLang = () => {
       // If the error is about profile already existing, try to load the existing profile
       if (errorMessage.includes('Profile already exists')) {
         try {
+          // Use FCL address for consistency
+          const fclAddress = await flowService.getCurrentUserAddress();
+          const addressToUse = fclAddress || flowService.normalizeAddress(primaryWallet.address);
+          console.log('Trying to load existing profile with address:', addressToUse);
+          
           const existingProfile = await flowService.executeScript(
             SCRIPTS.GET_PROFILE,
-            [primaryWallet.address]
+            [addressToUse]
           );
           
           if (existingProfile) {
             const profile: Profile = {
               primaryLanguage: existingProfile.primaryLanguage || primaryLanguage,
-              owner: primaryWallet.address,
-              createdAt: existingProfile.createdAt ? new Date(existingProfile.createdAt * 1000).toISOString() : new Date().toISOString()
+              owner: addressToUse,
+              createdAt: existingProfile.createdAt ? 
+                new Date(parseFloat(existingProfile.createdAt) * 1000).toISOString() : 
+                new Date().toISOString()
             };
             setProfile(profile);
             return;
@@ -184,7 +203,15 @@ export const useLeitnerLang = () => {
     
     setLoading(true);
     try {
-      console.log('Loading user data for:', primaryWallet.address);
+      console.log('Loading user data for:', primaryWallet.address, 'length:', primaryWallet.address?.length);
+      
+      // Get the actual FCL user address (the one signing transactions)
+      const fclUserAddress = await flowService.getCurrentUserAddress();
+      console.log('FCL user address for data loading:', fclUserAddress);
+      
+      // Use FCL address if available, otherwise fall back to normalized Dynamic address
+      const flowAddress = fclUserAddress || flowService.normalizeAddress(primaryWallet.address);
+      console.log('Using Flow address for data loading:', flowAddress);
       
       // Load all decks from contract
       const allDecks = await flowService.executeScript(SCRIPTS.GET_ALL_DECKS, []);
@@ -194,16 +221,24 @@ export const useLeitnerLang = () => {
       try {
         const userProfile = await flowService.executeScript(
           SCRIPTS.GET_PROFILE, 
-          [primaryWallet.address]
+          [flowAddress]
         );
         console.log('User profile from contract:', userProfile);
         
         if (userProfile) {
-          setProfile({
+          console.log('Setting profile from contract data:', userProfile);
+          
+          // Clean profile data to only include Profile interface fields
+          const profileToSet: Profile = {
             primaryLanguage: userProfile.primaryLanguage || 'English',
-            owner: primaryWallet.address,
-            createdAt: userProfile.createdAt || new Date().toISOString()
-          });
+            owner: flowAddress,
+            createdAt: userProfile.createdAt ? 
+              new Date(parseFloat(userProfile.createdAt) * 1000).toISOString() : 
+              new Date().toISOString()
+          };
+          
+          console.log('Clean profile being set:', profileToSet);
+          setProfile(profileToSet);
         }
       } catch (profileErr) {
         console.log('No profile found for user:', profileErr);
